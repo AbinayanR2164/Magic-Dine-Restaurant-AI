@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MagicDine AI Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           AI ASSISTANT PAGE
+        =========================================== */
+
+        .assistant-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .assistant-info-card {
+            padding: 15px 16px;
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 11px;
+        }
+
+        .assistant-info-card strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #1f2937;
+            font-size: 13px;
+        }
+
+        .assistant-info-card p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+
+        .chat-container {
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-avatar {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #fff7ed;
+            font-size: 22px;
+        }
+
+        .chat-header-text h3 {
+            margin: 0 0 3px;
+            color: #1f2937;
+            font-size: 16px;
+        }
+
+        .chat-header-text p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            background: #f0fdf4;
+            color: #15803d;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .ai-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .clear-chat-button {
+            padding: 7px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .clear-chat-button:hover {
+            background: #f8f9fb;
+            color: #374151;
+        }
+
+        .chat-messages {
+            min-height: 390px;
+            max-height: 540px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: #d1d5db;
+        }
+
+        .message {
+            margin-bottom: 18px;
+        }
+
+        .message-content {
+            max-width: 82%;
+        }
+
+        .message-content p {
+            line-height: 1.55;
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0 20px 50px;
+        }
+
+        .suggestions button {
+            padding: 8px 11px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .suggestions button:hover {
+            border-color: #fed7aa;
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .assistant-tip {
+            margin: 0 0 16px 50px;
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            outline: none;
+            font-size: 13px;
+            background: #ffffff;
+        }
+
+        .chat-input input:focus {
+            border-color: #ff5733;
+            box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.08);
+        }
+
+        .chat-input button {
+            min-width: 85px;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 9px;
+            background: #ff5733;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            opacity: 0.92;
+        }
+
+        .assistant-footer {
+            margin-top: 10px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .welcome-actions {
+            margin-top: 4px;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        =========================================== */
+
+        @media (max-width: 900px) {
+
+            .assistant-intro {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-messages {
+                max-height: 500px;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .chat-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .chat-header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .chat-messages {
+                min-height: 350px;
+            }
+
+            .message-content {
+                max-width: 90%;
+            }
+
+            .suggestions {
+                margin-left: 0;
+            }
+
+            .assistant-tip {
+                margin-left: 0;
+            }
+
+            .chat-input {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .chat-input button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍽️ MagicDine <span>AI</span>
+        </div>
+
+
+        <nav>
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+
+            <a
+                class="active"
+                href="assistant.html"
+            >
+                🤖 AI Assistant
+            </a>
+
+
+            <a href="insights.html">
+                📈 Insights
+            </a>
+
+
+            <a href="offers.html">
+                🎁 Offers
+            </a>
+
+
+            <a href="customers.html">
+                👥 Customers
+            </a>
+
+        </nav>
+
+
+        <div class="restaurant">
+
+            <div class="restaurant-icon">
+                R
+            </div>
+
+
+            <div>
+
+                <strong>
+                    My Restaurant
+                </strong>
+
+                <small>
+                    Restaurant Owner
+                </small>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    AI Restaurant Assistant 🤖
+                </h1>
+
+                <p>
+                    Ask questions about your restaurant
+                    and get intelligent recommendations.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ======================================
+             ASSISTANT CAPABILITIES
+        ======================================= -->
+
+        <section class="assistant-intro">
+
+
+            <div class="assistant-info-card">
+
+                <strong>
+                    📊 Performance Analysis
+                </strong>
+
+                <p>
+                    Ask about orders, revenue,
+                    average order value and channels.
+                </p>
+
+            </div>
+
+
+            <div class="assistant-info-card">
+
+                <strong>
+                    👥 Customer Intelligence
+                </strong>
+
+                <p>
+                    Understand customer activity,
+                    repeat orders and spending.
+                </p>
+
+            </div>
+
+
+            <div class="assistant-info-card">
+
+                <strong>
+                    🎯 Growth Recommendations
+                </strong>
+
+                <p>
+                    Get data-based ideas for offers,
+                    promotions and restaurant growth.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             CHAT
+        ======================================= -->
+
+        <section class="card chat-container">
+
+
+            <!-- CHAT HEADER -->
+
+            <div class="chat-header">
+
+
+                <div class="chat-header-left">
+
+                    <div class="ai-avatar">
+                        ✨
+                    </div>
+
+
+                    <div class="chat-header-text">
+
+                        <h3>
+                            MagicDine AI
+                        </h3>
+
+                        <p>
+                            Restaurant Growth Assistant
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-header-actions">
+
+                    <span class="ai-status">
+
+                        <span class="ai-status-dot"></span>
+
+                        AI Assistant
+
+                    </span>
+
+
+                    <button
+                        type="button"
+                        class="clear-chat-button"
+                        onclick="clearChat()"
+                    >
+                        Clear Chat
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- CHAT MESSAGES -->
+
+            <div
+                class="chat-messages"
+                id="chatBox"
+            >
+
+
+                <!-- INITIAL AI MESSAGE -->
+
+                <div class="message ai-message">
+
+
+                    <div class="message-avatar">
+                        ✨
+                    </div>
+
+
+                    <div class="message-content">
+
+
+                        <strong>
+                            MagicDine AI
+                        </strong>
+
+
+                        <p>
+                            Hi! 👋 I'm your restaurant growth assistant.
+                            I can analyze your orders, customers,
+                            offers and available performance data.
+                        </p>
+
+
+                        <p>
+                            What would you like to know?
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- SUGGESTIONS -->
+
+                <div class="suggestions">
+
+
+                    <button
+                        type="button"
+                    >
+                        📊 Analyze my restaurant
+                    </button>
+
+
+                    <button
+                        type="button"
+                    >
+                        📈 How can I increase revenue?
+                    </button>
+
+
+                    <button
+                        type="button"
+                    >
+                        🎁 Suggest an offer
+                    </button>
+
+
+                    <button
+                        type="button"
+                    >
+                        👥 Analyze my customers
+                    </button>
+
+
+                    <button
+                        type="button"
+                    >
+                        💰 What is my average order value?
+                    </button>
+
+
+                    <button
+                        type="button"
+                    >
+                        🛍️ Which order channel performs best?
+                    </button>
+
+
+                </div>
+
+
+                <p class="assistant-tip">
+                    Tip: Ask specific questions to get more useful
+                    data-based recommendations.
+                </p>
+
+
+            </div>
+
+
+            <!-- INPUT -->
+
+            <div class="chat-input">
+
+
+                <input
+                    id="questionInput"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ask MagicDine AI anything..."
+                >
+
+
+                <button
+                    type="button"
+                >
+                    Send ➤
+                </button>
+
+
+            </div>
+
+
+            <div class="assistant-footer">
+
+                MagicDine AI uses the restaurant data available
+                in your connected database.
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script src="script.js?v=2"></script>
+
+
+    <script>
+
+        // ==========================================
+        // CLEAR CHAT
+        // ==========================================
+
+        function clearChat() {
+
+            const chatBox =
+                document.getElementById(
+                    "chatBox"
+                );
+
+
+            if (!chatBox) {
+                return;
+            }
+
+
+            chatBox.innerHTML = `
+
+                <div class="message ai-message">
+
+                    <div class="message-avatar">
+                        ✨
+                    </div>
+
+                    <div class="message-content">
+
+                        <strong>
+                            MagicDine AI
+                        </strong>
+
+                        <p>
+                            Hi! 👋 I'm your restaurant growth assistant.
+                        </p>
+
+                        <p>
+                            Your chat has been cleared.
+                            What would you like to know?
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="suggestions">
+
+                    <button type="button">
+                        📊 Analyze my restaurant
+                    </button>
+
+                    <button type="button">
+                        📈 How can I increase revenue?
+                    </button>
+
+                    <button type="button">
+                        🎁 Suggest an offer
+                    </button>
+
+                    <button type="button">
+                        👥 Analyze my customers
+                    </button>
+
+                    <button type="button">
+                        💰 What is my average order value?
+                    </button>
+
+                    <button type="button">
+                        🛍️ Which order channel performs best?
+                    </button>
+
+                </div>
+
+                <p class="assistant-tip">
+                    Tip: Ask specific questions to get more useful
+                    data-based recommendations.
+                </p>
+
+            `;
+
+
+            /*
+             * Reconnect suggestion buttons after
+             * clearing the chat.
+             *
+             * The main script.js handles the actual
+             * question submission.
+             */
+
+            if (
+                typeof window.attachSuggestionHandlers ===
+                "function"
+            ) {
+
+                window.attachSuggestionHandlers();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ENTER KEY SUPPORT
+        // ==========================================
+
+        const questionInput =
+            document.getElementById(
+                "questionInput"
+            );
+
+
+        if (questionInput) {
+
+            questionInput.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter" &&
+                        !event.shiftKey
+                    ) {
+
+                        event.preventDefault();
+
+
+                        const sendButton =
+                            document.querySelector(
+                                ".chat-input button"
+                            );
+
+
+                        if (sendButton) {
+
+                            sendButton.click();
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // AUTO-SCROLL CHAT
+        // ==========================================
+
+        const chatBox =
+            document.getElementById(
+                "chatBox"
+            );
+
+
+        if (chatBox) {
+
+            const observer =
+                new MutationObserver(
+                    function() {
+
+                        chatBox.scrollTop =
+                            chatBox.scrollHeight;
+
+                    }
+                );
+
+
+            observer.observe(
+                chatBox,
+                {
+                    childList: true,
+                    subtree: true
+                }
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MagicDine Customers</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           CUSTOMER PAGE
+        =========================================== */
+
+        .customer-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .customer-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .customer-search {
+            width: 260px;
+            padding: 10px 13px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+            background: #ffffff;
+        }
+
+        .customer-search:focus {
+            border-color: #ff5733;
+        }
+
+        .customer-filter,
+        .customer-sort {
+            padding: 10px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .customer-filter:focus,
+        .customer-sort:focus {
+            border-color: #ff5733;
+        }
+
+        .customer-insights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .customer-insight-card {
+            padding: 18px;
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+        }
+
+        .customer-insight-card strong {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .customer-insight-card p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #6b7280;
+        }
+
+        .customer-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .customer-result-count {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .customer-item {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 130px;
+            align-items: center;
+            gap: 18px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            background: #f8f9fb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            transition: 0.2s ease;
+        }
+
+        .customer-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        .customer-main-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #1f2937;
+            font-size: 15px;
+        }
+
+        .customer-main-info p {
+            margin: 3px 0;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .customer-status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .customer-metric {
+            text-align: center;
+        }
+
+        .customer-metric span {
+            display: block;
+            margin-bottom: 5px;
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .customer-metric strong {
+            font-size: 15px;
+            color: #1f2937;
+        }
+
+        .customer-details-button {
+            padding: 8px 12px;
+            border: 1px solid #fed7aa;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #ea580c;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .customer-details-button:hover {
+            background: #fff7ed;
+        }
+
+        .customer-empty {
+            padding: 35px 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .customer-loading {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .customer-error {
+            padding: 18px;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            background: #fef2f2;
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
+        /* ==========================================
+           CUSTOMER MODAL
+        =========================================== */
+
+        .customer-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.55);
+        }
+
+        .customer-modal-content {
+            width: min(650px, 100%);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 24px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .customer-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .customer-modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #1f2937;
+        }
+
+        .customer-modal-close {
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .customer-modal-close:hover {
+            background: #e5e7eb;
+        }
+
+        .customer-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .customer-summary-item {
+            padding: 14px;
+            text-align: center;
+            background: #f8f9fb;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+        }
+
+        .customer-summary-item span {
+            display: block;
+            margin-bottom: 6px;
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .customer-summary-item strong {
+            font-size: 18px;
+            color: #1f2937;
+        }
+
+        .customer-order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .customer-order {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 16px;
+            background: #f8f9fb;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+        }
+
+        .customer-order strong {
+            color: #1f2937;
+            font-size: 13px;
+        }
+
+        .customer-order p {
+            margin: 4px 0 0;
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .no-orders {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+            background: #f8f9fb;
+            border-radius: 9px;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        =========================================== */
+
+        @media (max-width: 1000px) {
+
+            .customer-item {
+                grid-template-columns: 1.5fr 1fr 1fr 120px;
+            }
+
+            .customer-item .customer-aov {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 800px) {
+
+            .customer-insights {
+                grid-template-columns: 1fr;
+            }
+
+            .customer-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .customer-search {
+                width: 100%;
+            }
+
+            .customer-controls {
+                width: 100%;
+            }
+
+            .customer-filter,
+            .customer-sort {
+                flex: 1;
+            }
+
+            .customer-item {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .customer-main-info {
+                grid-column: 1 / -1;
+            }
+
+            .customer-details-button {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .customer-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .customer-metric {
+                text-align: left;
+            }
+
+            .customer-details-button {
+                width: 100%;
+            }
+
+            .customer-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .customer-modal {
+                padding: 10px;
+            }
+
+            .customer-modal-content {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍽️ MagicDine <span>AI</span>
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+            <a href="assistant.html">
+                🤖 AI Assistant
+            </a>
+
+            <a href="insights.html">
+                📈 Insights
+            </a>
+
+            <a href="offers.html">
+                🎁 Offers
+            </a>
+
+            <a
+                class="active"
+                href="customers.html"
+            >
+                👥 Customers
+            </a>
+
+        </nav>
+
+
+        <div class="restaurant">
+
+            <div class="restaurant-icon">
+                R
+            </div>
+
+            <div>
+
+                <strong>
+                    My Restaurant
+                </strong>
+
+                <small>
+                    Restaurant Owner
+                </small>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Customers 👥
+                </h1>
+
+                <p>
+                    Manage and understand your restaurant customers.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ======================================
+             CUSTOMER STATISTICS
+        ======================================= -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <p>
+                    Total Customers
+                </p>
+
+                <h2 id="customerCount">
+                    Loading...
+                </h2>
+
+                <span class="positive">
+                    From MySQL database
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Repeat Customers
+                </p>
+
+                <h2 id="repeatCustomers">
+                    Loading...
+                </h2>
+
+                <span>
+                    Customers with 2+ orders
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Customer Orders
+                </p>
+
+                <h2 id="customerOrderCount">
+                    Loading...
+                </h2>
+
+                <span>
+                    Orders linked to customers
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    Customer Revenue
+                </p>
+
+                <h2 id="customerRevenue">
+                    Loading...
+                </h2>
+
+                <span class="positive">
+                    From customer orders
+                </span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <p>
+                    High Value Customers
+                </p>
+
+                <h2 id="highValueCustomers">
+                    Loading...
+                </h2>
+
+                <span>
+                    ₹800+ total spending
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             CUSTOMER INSIGHTS
+        ======================================= -->
+
+        <section class="customer-insights">
+
+
+            <div class="customer-insight-card">
+
+                <strong>
+                    Customer Retention
+                </strong>
+
+                <p id="retentionInsight">
+                    Analyzing repeat customer activity...
+                </p>
+
+            </div>
+
+
+            <div class="customer-insight-card">
+
+                <strong>
+                    Top Customer
+                </strong>
+
+                <p id="topCustomerInsight">
+                    Identifying highest-spending customer...
+                </p>
+
+            </div>
+
+
+            <div class="customer-insight-card">
+
+                <strong>
+                    Customer Opportunity
+                </strong>
+
+                <p id="customerOpportunityInsight">
+                    Analyzing customers with no orders...
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             CUSTOMER INTELLIGENCE
+        ======================================= -->
+
+        <section class="card">
+
+
+            <div class="customer-toolbar">
+
+
+                <div>
+
+                    <h2>
+                        Customer Intelligence
+                    </h2>
+
+                    <p>
+                        Customer activity and spending insights
+                    </p>
+
+                </div>
+
+
+                <div class="customer-controls">
+
+                    <input
+                        type="text"
+                        id="customerSearch"
+                        class="customer-search"
+                        placeholder="Search customers..."
+                    >
+
+
+                    <select
+                        id="customerFilter"
+                        class="customer-filter"
+                    >
+
+                        <option value="all">
+                            All Customers
+                        </option>
+
+                        <option value="repeat">
+                            Repeat Customers
+                        </option>
+
+                        <option value="high-value">
+                            High Value
+                        </option>
+
+                        <option value="active">
+                            Active Customers
+                        </option>
+
+                        <option value="no-orders">
+                            No Orders
+                        </option>
+
+                    </select>
+
+
+                    <select
+                        id="customerSort"
+                        class="customer-sort"
+                    >
+
+                        <option value="spending-desc">
+                            Highest Spending
+                        </option>
+
+                        <option value="spending-asc">
+                            Lowest Spending
+                        </option>
+
+                        <option value="orders-desc">
+                            Most Orders
+                        </option>
+
+                        <option value="orders-asc">
+                            Least Orders
+                        </option>
+
+                        <option value="name-asc">
+                            Name A-Z
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="customer-list-header">
+
+                <span>
+                    Customer List
+                </span>
+
+                <span
+                    id="customerResultCount"
+                    class="customer-result-count"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <div id="customerList">
+
+                <div class="customer-loading">
+                    Loading customer intelligence...
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         CUSTOMER JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        // ==========================================
+        // GLOBAL CUSTOMER DATA
+        // ==========================================
+
+        let allCustomers = [];
+
+
+        // ==========================================
+        // API BASE URL
+        // ==========================================
+
+        const API_BASE =
+            "http://127.0.0.1:8000";
+
+
+        // ==========================================
+        // FORMAT CURRENCY
+        // ==========================================
+
+        function formatCurrency(value) {
+
+            return "₹" +
+                Number(value || 0)
+                    .toLocaleString(
+                        "en-IN",
+                        {
+                            maximumFractionDigits: 0
+                        }
+                    );
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // GET CUSTOMER STATUS
+        // ==========================================
+
+        function getCustomerStatus(customer) {
+
+            const orderCount =
+                Number(customer.order_count || 0);
+
+            const totalSpent =
+                Number(customer.total_spent || 0);
+
+
+            if (orderCount >= 2) {
+
+                return "🔁 Repeat Customer";
+
+            }
+
+
+            if (totalSpent >= 800) {
+
+                return "💎 High Value Customer";
+
+            }
+
+
+            if (orderCount === 1) {
+
+                return "🛒 Active Customer";
+
+            }
+
+
+            return "🆕 No Orders Yet";
+
+        }
+
+
+        // ==========================================
+        // GET CUSTOMER CATEGORY
+        // ==========================================
+
+        function getCustomerCategory(customer) {
+
+            const orderCount =
+                Number(customer.order_count || 0);
+
+            const totalSpent =
+                Number(customer.total_spent || 0);
+
+
+            if (orderCount >= 2) {
+
+                return "repeat";
+
+            }
+
+
+            if (totalSpent >= 800) {
+
+                return "high-value";
+
+            }
+
+
+            if (orderCount === 1) {
+
+                return "active";
+
+            }
+
+
+            return "no-orders";
+
+        }
+
+
+        // ==========================================
+        // VIEW CUSTOMER DETAILS
+        // ==========================================
+
+        async function viewCustomerDetails(customerId) {
+
+            try {
+
+                const response = await fetch(
+                    `${API_BASE}/customer-orders/${customerId}`
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const customer =
+                    allCustomers.find(
+                        item =>
+                            Number(item.id) ===
+                            Number(customerId)
+                    );
+
+
+                let orderHistory = "";
+
+
+                if (
+                    !data.orders ||
+                    data.orders.length === 0
+                ) {
+
+                    orderHistory = `
+                        <p class="no-orders">
+                            No orders found for this customer.
+                        </p>
+                    `;
+
+                } else {
+
+
+                    data.orders.forEach(
+                        order => {
+
+
+                            const formattedDate =
+                                new Date(
+                                    order.order_date
+                                ).toLocaleDateString(
+                                    "en-IN",
+                                    {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric"
+                                    }
+                                );
+
+
+                            orderHistory += `
+
+                                <div class="customer-order">
+
+                                    <div>
+
+                                        <strong>
+                                            ${formattedDate}
+                                        </strong>
+
+                                        <p>
+                                            ${escapeHtml(
+                                                order.order_channel
+                                            )}
+                                        </p>
+
+                                    </div>
+
+                                    <strong>
+                                        ${formatCurrency(
+                                            order.order_amount
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+                }
+
+
+                // ==========================================
+                // CUSTOMER SUMMARY
+                // ==========================================
+
+                const customerOrderCount =
+                    data.orders
+                        ? data.orders.length
+                        : 0;
+
+
+                const customerTotalSpent =
+                    data.orders
+                        ? data.orders.reduce(
+                            (
+                                total,
+                                order
+                            ) =>
+                                total +
+                                Number(
+                                    order.order_amount || 0
+                                ),
+                            0
+                        )
+                        : 0;
+
+
+                const customerAverageOrder =
+                    customerOrderCount > 0
+                        ? customerTotalSpent /
+                          customerOrderCount
+                        : 0;
+
+
+                const customerRevenueShare =
+                    getTotalRevenue() > 0
+                        ? (
+                            customerTotalSpent /
+                            getTotalRevenue()
+                        ) * 100
+                        : 0;
+
+
+                // ==========================================
+                // REMOVE EXISTING MODAL
+                // ==========================================
+
+                const existingModal =
+                    document.querySelector(
+                        ".customer-modal"
+                    );
+
+
+                if (existingModal) {
+
+                    existingModal.remove();
+
+                }
+
+
+                // ==========================================
+                // CREATE MODAL
+                // ==========================================
+
+                const modal =
+                    document.createElement("div");
+
+
+                modal.className =
+                    "customer-modal";
+
+
+                modal.addEventListener(
+                    "click",
+                    function(event) {
+
+                        if (
+                            event.target ===
+                            modal
+                        ) {
+
+                            modal.remove();
+
+                        }
+
+                    }
+                );
+
+
+                modal.innerHTML = `
+
+                    <div class="customer-modal-content">
+
+
+                        <div class="customer-modal-header">
+
+                            <div>
+
+                                <h2>
+                                    ${customer
+                                        ? escapeHtml(
+                                            customer.name
+                                        )
+                                        : "Customer"
+                                    }
+                                </h2>
+
+                                <p
+                                    style="
+                                        margin: 5px 0 0;
+                                        color: #6b7280;
+                                        font-size: 12px;
+                                    "
+                                >
+                                    ${customer
+                                        ? escapeHtml(
+                                            customer.email
+                                        )
+                                        : ""
+                                    }
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                class="customer-modal-close"
+                                type="button"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+
+                        <div class="customer-summary">
+
+
+                            <div class="customer-summary-item">
+
+                                <span>
+                                    Orders
+                                </span>
+
+                                <strong>
+                                    ${customerOrderCount}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="customer-summary-item">
+
+                                <span>
+                                    Total Spent
+                                </span>
+
+                                <strong>
+                                    ${formatCurrency(
+                                        customerTotalSpent
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="customer-summary-item">
+
+                                <span>
+                                    Average Order
+                                </span>
+
+                                <strong>
+                                    ${formatCurrency(
+                                        customerAverageOrder
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            style="
+                                display: grid;
+                                grid-template-columns:
+                                    repeat(2, 1fr);
+                                gap: 10px;
+                                margin-bottom: 20px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    padding: 12px;
+                                    background: #f8f9fb;
+                                    border-radius: 9px;
+                                "
+                            >
+
+                                <span
+                                    style="
+                                        display: block;
+                                        font-size: 11px;
+                                        color: #6b7280;
+                                        margin-bottom: 4px;
+                                    "
+                                >
+                                    Customer Status
+                                </span>
+
+                                <strong
+                                    style="
+                                        font-size: 13px;
+                                        color: #1f2937;
+                                    "
+                                >
+                                    ${customer
+                                        ? getCustomerStatus(
+                                            customer
+                                        )
+                                        : "Customer"
+                                    }
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                style="
+                                    padding: 12px;
+                                    background: #f8f9fb;
+                                    border-radius: 9px;
+                                "
+                            >
+
+                                <span
+                                    style="
+                                        display: block;
+                                        font-size: 11px;
+                                        color: #6b7280;
+                                        margin-bottom: 4px;
+                                    "
+                                >
+                                    Revenue Contribution
+                                </span>
+
+                                <strong
+                                    style="
+                                        font-size: 13px;
+                                        color: #1f2937;
+                                    "
+                                >
+                                    ${customerRevenueShare.toFixed(1)}%
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <h3
+                            style="
+                                margin: 0 0 12px;
+                                font-size: 15px;
+                                color: #1f2937;
+                            "
+                        >
+                            Order History
+                        </h3>
+
+
+                        <div class="customer-order-list">
+
+                            ${orderHistory}
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+
+                document.body.appendChild(modal);
+
+
+                modal
+                    .querySelector(
+                        ".customer-modal-close"
+                    )
+                    .addEventListener(
+                        "click",
+                        function() {
+
+                            modal.remove();
+
+                        }
+                    );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Customer Details Error:",
+                    error
+                );
+
+
+                alert(
+                    "Unable to load customer order history."
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // GET TOTAL REVENUE
+        // ==========================================
+
+        function getTotalRevenue() {
+
+            return allCustomers.reduce(
+                (
+                    total,
+                    customer
+                ) =>
+                    total +
+                    Number(
+                        customer.total_spent || 0
+                    ),
+                0
+            );
+
+        }
+
+
+        // ==========================================
+        // LOAD CUSTOMER ANALYTICS
+        // ==========================================
+
+        async function loadCustomerAnalytics() {
+
+            const customerList =
+                document.getElementById(
+                    "customerList"
+                );
+
+
+            try {
+
+
+                customerList.innerHTML = `
+                    <div class="customer-loading">
+                        Loading customer intelligence...
+                    </div>
+                `;
+
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/customer-analytics`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                allCustomers =
+                    Array.isArray(
+                        data.customers
+                    )
+                        ? data.customers
+                        : [];
+
+
+                updateCustomerStatistics();
+
+
+                updateCustomerInsights();
+
+
+                renderCustomers();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Customer Intelligence Error:",
+                    error
+                );
+
+
+                customerList.innerHTML = `
+                    <div class="customer-error">
+                        Unable to load customer intelligence.
+                        Please make sure the backend and MySQL
+                        database are running.
+                    </div>
+                `;
+
+
+                document.getElementById(
+                    "customerCount"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "repeatCustomers"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "highValueCustomers"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerOrderCount"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerRevenue"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerResultCount"
+                ).textContent =
+                    "Unavailable";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // UPDATE CUSTOMER STATISTICS
+        // ==========================================
+
+        function updateCustomerStatistics() {
+
+
+            const totalCustomers =
+                allCustomers.length;
+
+
+            const repeatCustomers =
+                allCustomers.filter(
+                    customer =>
+                        Number(
+                            customer.order_count || 0
+                        ) >= 2
+                ).length;
+
+
+            const highValueCustomers =
+                allCustomers.filter(
+                    customer =>
+                        Number(
+                            customer.total_spent || 0
+                        ) >= 800
+                ).length;
+
+
+            const totalOrders =
+                allCustomers.reduce(
+                    (
+                        total,
+                        customer
+                    ) =>
+                        total +
+                        Number(
+                            customer.order_count || 0
+                        ),
+                    0
+                );
+
+
+            const totalRevenue =
+                allCustomers.reduce(
+                    (
+                        total,
+                        customer
+                    ) =>
+                        total +
+                        Number(
+                            customer.total_spent || 0
+                        ),
+                    0
+                );
+
+
+            document.getElementById(
+                "customerCount"
+            ).textContent =
+                totalCustomers;
+
+
+            document.getElementById(
+                "repeatCustomers"
+            ).textContent =
+                repeatCustomers;
+
+
+            document.getElementById(
+                "highValueCustomers"
+            ).textContent =
+                highValueCustomers;
+
+
+            document.getElementById(
+                "customerOrderCount"
+            ).textContent =
+                totalOrders;
+
+
+            document.getElementById(
+                "customerRevenue"
+            ).textContent =
+                formatCurrency(
+                    totalRevenue
+                );
+
+        }
+
+
+        // ==========================================
+        // CUSTOMER INSIGHTS
+        // ==========================================
+
+        function updateCustomerInsights() {
+
+
+            const totalCustomers =
+                allCustomers.length;
+
+
+            const repeatCustomers =
+                allCustomers.filter(
+                    customer =>
+                        Number(
+                            customer.order_count || 0
+                        ) >= 2
+                ).length;
+
+
+            const noOrderCustomers =
+                allCustomers.filter(
+                    customer =>
+                        Number(
+                            customer.order_count || 0
+                        ) === 0
+                ).length;
+
+
+            const retentionInsight =
+                document.getElementById(
+                    "retentionInsight"
+                );
+
+
+            if (totalCustomers === 0) {
+
+                retentionInsight.textContent =
+                    "There is not enough customer data yet.";
+
+            } else {
+
+                const repeatRate =
+                    (
+                        repeatCustomers /
+                        totalCustomers
+                    ) * 100;
+
+
+                retentionInsight.textContent =
+                    `${repeatCustomers} of ${totalCustomers} customers are repeat customers (${repeatRate.toFixed(0)}%).`;
+
+            }
+
+
+            // ==========================================
+            // TOP CUSTOMER
+            // ==========================================
+
+            const topCustomer =
+                [...allCustomers]
+                    .sort(
+                        (
+                            a,
+                            b
+                        ) =>
+                            Number(
+                                b.total_spent || 0
+                            ) -
+                            Number(
+                                a.total_spent || 0
+                            )
+                    )[0];
+
+
+            const topCustomerInsight =
+                document.getElementById(
+                    "topCustomerInsight"
+                );
+
+
+            if (
+                topCustomer &&
+                Number(
+                    topCustomer.total_spent || 0
+                ) > 0
+            ) {
+
+                topCustomerInsight.textContent =
+                    `${topCustomer.name} has the highest recorded spending at ${formatCurrency(topCustomer.total_spent)}.`;
+
+            } else {
+
+                topCustomerInsight.textContent =
+                    "No customer spending data is available yet.";
+
+            }
+
+
+            // ==========================================
+            // CUSTOMER OPPORTUNITY
+            // ==========================================
+
+            const customerOpportunityInsight =
+                document.getElementById(
+                    "customerOpportunityInsight"
+                );
+
+
+            if (noOrderCustomers > 0) {
+
+                customerOpportunityInsight.textContent =
+                    `${noOrderCustomers} customer${noOrderCustomers > 1 ? "s" : ""} currently have no recorded orders.`;
+
+            } else {
+
+                customerOpportunityInsight.textContent =
+                    "All registered customers have at least one recorded order.";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // RENDER CUSTOMERS
+        // ==========================================
+
+        function renderCustomers() {
+
+
+            const customerList =
+                document.getElementById(
+                    "customerList"
+                );
+
+
+            const searchText =
+                document.getElementById(
+                    "customerSearch"
+                ).value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filter =
+                document.getElementById(
+                    "customerFilter"
+                ).value;
+
+
+            const sort =
+                document.getElementById(
+                    "customerSort"
+                ).value;
+
+
+            let customers =
+                [...allCustomers];
+
+
+            // ==========================================
+            // SEARCH
+            // ==========================================
+
+            if (searchText) {
+
+                customers =
+                    customers.filter(
+                        customer => {
+
+                            const searchableText =
+                                [
+                                    customer.name,
+                                    customer.phone,
+                                    customer.email
+                                ]
+                                    .join(" ")
+                                    .toLowerCase();
+
+
+                            return searchableText.includes(
+                                searchText
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            // ==========================================
+            // FILTER
+            // ==========================================
+
+            if (filter !== "all") {
+
+                customers =
+                    customers.filter(
+                        customer =>
+                            getCustomerCategory(
+                                customer
+                            ) === filter
+                    );
+
+            }
+
+
+            // ==========================================
+            // SORT
+            // ==========================================
+
+            if (sort === "spending-desc") {
+
+                customers.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            b.total_spent || 0
+                        ) -
+                        Number(
+                            a.total_spent || 0
+                        )
+                );
+
+            }
+
+
+            if (sort === "spending-asc") {
+
+                customers.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            a.total_spent || 0
+                        ) -
+                        Number(
+                            b.total_spent || 0
+                        )
+                );
+
+            }
+
+
+            if (sort === "orders-desc") {
+
+                customers.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            b.order_count || 0
+                        ) -
+                        Number(
+                            a.order_count || 0
+                        )
+                );
+
+            }
+
+
+            if (sort === "orders-asc") {
+
+                customers.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            a.order_count || 0
+                        ) -
+                        Number(
+                            b.order_count || 0
+                        )
+                );
+
+            }
+
+
+            if (sort === "name-asc") {
+
+                customers.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        String(
+                            a.name || ""
+                        ).localeCompare(
+                            String(
+                                b.name || ""
+                            )
+                        )
+                );
+
+            }
+
+
+            // ==========================================
+            // RESULT COUNT
+            // ==========================================
+
+            document.getElementById(
+                "customerResultCount"
+            ).textContent =
+                `${customers.length} customer${customers.length !== 1 ? "s" : ""}`;
+
+
+            // ==========================================
+            // EMPTY STATE
+            // ==========================================
+
+            if (customers.length === 0) {
+
+                customerList.innerHTML = `
+                    <div class="customer-empty">
+                        No customers match the current search or filter.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // TOTAL REVENUE
+            // ==========================================
+
+            const totalRevenue =
+                getTotalRevenue();
+
+
+            customerList.innerHTML = "";
+
+
+            // ==========================================
+            // CUSTOMER CARDS
+            // ==========================================
+
+            customers.forEach(
+                customer => {
+
+
+                    const orderCount =
+                        Number(
+                            customer.order_count || 0
+                        );
+
+
+                    const totalSpent =
+                        Number(
+                            customer.total_spent || 0
+                        );
+
+
+                    const averageOrderValue =
+                        Number(
+                            customer.average_order_value || 0
+                        );
+
+
+                    const revenueShare =
+                        totalRevenue > 0
+                            ? (
+                                totalSpent /
+                                totalRevenue
+                            ) * 100
+                            : 0;
+
+
+                    const customerStatus =
+                        getCustomerStatus(
+                            customer
+                        );
+
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "customer-item";
+
+
+                    item.dataset.customerId =
+                        customer.id;
+
+
+                    item.dataset.category =
+                        getCustomerCategory(
+                            customer
+                        );
+
+
+                    item.innerHTML = `
+
+                        <div class="customer-main-info">
+
+                            <strong>
+                                ${escapeHtml(
+                                    customer.name
+                                )}
+                            </strong>
+
+                            <p>
+                                📞 ${escapeHtml(
+                                    customer.phone
+                                )}
+                            </p>
+
+                            <p>
+                                ✉️ ${escapeHtml(
+                                    customer.email
+                                )}
+                            </p>
+
+                            <p>
+                                <span class="customer-status">
+                                    ${customerStatus}
+                                </span>
+                            </p>
+
+                        </div>
+
+
+                        <div class="customer-metric">
+
+                            <span>
+                                Orders
+                            </span>
+
+                            <strong>
+                                ${orderCount}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="customer-metric">
+
+                            <span>
+                                Total Spent
+                            </span>
+
+                            <strong>
+                                ${formatCurrency(
+                                    totalSpent
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="customer-metric customer-aov">
+
+                            <span>
+                                Average Order
+                            </span>
+
+                            <strong>
+                                ${formatCurrency(
+                                    averageOrderValue
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="customer-details-button"
+                        >
+                            View Details
+                        </button>
+
+                    `;
+
+
+                    item
+                        .querySelector(
+                            ".customer-details-button"
+                        )
+                        .addEventListener(
+                            "click",
+                            function() {
+
+                                viewCustomerDetails(
+                                    customer.id
+                                );
+
+                            }
+                        );
+
+
+                    customerList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ==========================================
+        // SEARCH
+        // ==========================================
+
+        document
+            .getElementById(
+                "customerSearch"
+            )
+            .addEventListener(
+                "input",
+                function() {
+
+                    renderCustomers();
+
+                }
+            );
+
+
+        // ==========================================
+        // FILTER
+        // ==========================================
+
+        document
+            .getElementById(
+                "customerFilter"
+            )
+            .addEventListener(
+                "change",
+                function() {
+
+                    renderCustomers();
+
+                }
+            );
+
+
+        // ==========================================
+        // SORT
+        // ==========================================
+
+        document
+            .getElementById(
+                "customerSort"
+            )
+            .addEventListener(
+                "change",
+                function() {
+
+                    renderCustomers();
+
+                }
+            );
+
+
+        // ==========================================
+        // CLOSE MODAL WITH ESCAPE
+        // ==========================================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    const modal =
+                        document.querySelector(
+                            ".customer-modal"
+                        );
+
+
+                    if (modal) {
+
+                        modal.remove();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // START CUSTOMER PAGE
+        // ==========================================
+
+        loadCustomerAnalytics();
+
+
+    </script>
+
+
+</body>
+
+</html>

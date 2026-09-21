@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MagicDine Offers</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍽️ MagicDine <span>AI</span>
+        </div>
+
+
+        <nav>
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+
+            <a href="assistant.html">
+                🤖 AI Assistant
+            </a>
+
+
+            <a href="insights.html">
+                📈 Insights
+            </a>
+
+
+            <a
+                class="active"
+                href="offers.html"
+            >
+                🎁 Offers
+            </a>
+
+
+            <a href="customers.html">
+                👥 Customers
+            </a>
+
+        </nav>
+
+
+        <div class="restaurant">
+
+            <div class="restaurant-icon">
+                R
+            </div>
+
+
+            <div>
+
+                <strong>
+                    My Restaurant
+                </strong>
+
+                <small>
+                    Restaurant Owner
+                </small>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
+
+ <header class="topbar">
+
+    <div>
+
+        <h1>
+            Offers 🎁
+        </h1>
+
+        <p>
+            Create and manage your restaurant offers.
+        </p>
+
+    </div>
+
+
+    <button
+        class="create-offer-button"
+        onclick="openOfferModal()"
+    >
+        + Create Offer
+    </button>
+
+</header>
+
+
+        <!-- ======================================
+             OFFERS
+        ======================================= -->
+
+        <section class="card">
+
+
+            <div class="section-header">
+
+
+                <div>
+
+                    <h2>
+                        Restaurant Offers
+                    </h2>
+
+                    <p>
+                        Your current promotional offers
+                    </p>
+
+                </div>
+
+
+
+                <!-- ==================================
+                     OFFER SUMMARY
+                =================================== -->
+
+                <div class="offer-summary">
+
+
+                    <!-- TOTAL OFFERS -->
+
+                    <div class="offer-summary-item">
+
+                        <strong id="offerCount">
+                            0
+                        </strong>
+
+                        <p>
+                            Total Offers
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- ACTIVE OFFERS -->
+
+                    <div class="offer-summary-item">
+
+                        <strong id="activeOfferCount">
+                            0
+                        </strong>
+
+                        <p>
+                            Active
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- INACTIVE OFFERS -->
+
+                    <div class="offer-summary-item">
+
+                        <strong id="inactiveOfferCount">
+                            0
+                        </strong>
+
+                        <p>
+                            Inactive
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ==================================
+                 OFFER LIST
+            =================================== -->
+
+            <div id="offerList">
+
+                <p>
+                    Loading offers...
+                </p>
+
+            </div>
+
+        </section>
+
+
+<!-- ==========================================
+     OFFER INTELLIGENCE
+========================================== -->
+
+<section class="card offer-intelligence-card">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Offer Intelligence 🤖
+            </h2>
+
+            <p>
+                AI-powered insights for your restaurant offers
+            </p>
+
+        </div>
+
+    </div>
+
+<div id="offerInsight">
+
+    <div class="offer-insight-item">
+
+        <strong>
+            Active Promotions
+        </strong>
+
+        <p id="activeOfferInsight">
+            Analyzing active offers...
+        </p>
+
+    </div>
+
+
+    <div class="offer-insight-item">
+
+        <strong>
+            Expiring Offers
+        </strong>
+
+        <p id="expiringOfferInsight">
+            Checking offer expiry dates...
+        </p>
+
+    </div>
+
+
+    <div class="offer-insight-item">
+
+        <strong>
+            Promotion Opportunity
+        </strong>
+
+        <p id="promotionInsight">
+            Analyzing your promotional opportunities...
+        </p>
+
+    </div>
+
+</div>
+</section>
+
+
+<!-- ==========================================
+     CREATE OFFER MODAL
+========================================== -->
+
+<div
+    id="offerModal"
+    class="offer-modal"
+>
+
+    <div class="offer-modal-content">
+
+
+        <!-- MODAL HEADER -->
+
+        <div class="offer-modal-header">
+
+            <div>
+
+ <h2 id="offerModalTitle">
+    Create New Offer
+</h2>
+
+<p id="offerModalDescription">
+    Add a promotional offer for your restaurant.
+</p>
+            </div>
+
+
+            <button
+                class="offer-modal-close"
+                onclick="closeOfferModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <!-- OFFER FORM -->
+
+        <form
+            id="offerForm"
+            onsubmit="return false;"
+        >
+
+
+            <!-- OFFER NAME -->
+
+            <div class="offer-form-group">
+
+                <label for="offerName">
+                    Offer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="offerName"
+                    placeholder="Example: Weekend Special"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- DISCOUNT -->
+
+            <div class="offer-form-group">
+
+                <label for="offerDiscount">
+                    Discount Percentage
+                </label>
+
+                <input
+    type="number"
+    id="offerDiscount"
+    min="1"
+    max="100"
+    step="0.1"
+    placeholder="Example: 20"
+    required
+>
+
+            </div>
+
+
+
+            <!-- DATES -->
+
+            <div class="offer-form-row">
+
+
+                <div class="offer-form-group">
+
+                    <label for="offerStartDate">
+                        Start Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="offerStartDate"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="offer-form-group">
+
+                    <label for="offerEndDate">
+                        End Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="offerEndDate"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="offer-form-group">
+
+                <label for="offerStatus">
+                    Status
+                </label>
+
+                <select id="offerStatus">
+
+                    <option value="1">
+                        Active
+                    </option>
+
+                    <option value="0">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="offer-form-actions">
+
+                <button
+                    type="button"
+                    class="offer-cancel-button"
+                    onclick="closeOfferModal()"
+                >
+                    Cancel
+                </button>
+
+
+ <button
+    type="button"
+    class="offer-save-button"
+    id="offerSubmitButton"
+    onclick="createOffer()"
+>
+    Create Offer
+</button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</main>
+
+
+    <!-- ==========================================
+         OFFERS JAVASCRIPT
+    =========================================== -->
+
+<script>
+
+
+// ==========================================
+// EDITING OFFER ID
+// ==========================================
+
+let editingOfferId = null;
+
+
+
+// ==========================================
+// LOAD OFFERS
+// ==========================================
+
+async function loadOffers() {
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/offers"
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const offerList =
+            document.getElementById(
+                "offerList"
+            );
+
+
+        const offerCount =
+            document.getElementById(
+                "offerCount"
+            );
+
+
+        const activeOfferCount =
+            document.getElementById(
+                "activeOfferCount"
+            );
+
+
+        const inactiveOfferCount =
+            document.getElementById(
+                "inactiveOfferCount"
+            );
+
+
+        offerList.innerHTML = "";
+
+
+        // ==================================
+        // OFFER COUNTS
+        // ==================================
+
+        const offers =
+            data.offers || [];
+
+
+        const activeOffers =
+            offers.filter(
+                offer =>
+                    Number(
+                        offer.is_active
+                    ) === 1
+            ).length;
+
+
+        const inactiveOffers =
+            offers.filter(
+                offer =>
+                    Number(
+                        offer.is_active
+                    ) !== 1
+            ).length;
+
+
+        offerCount.textContent =
+            offers.length;
+
+
+        activeOfferCount.textContent =
+            activeOffers;
+
+
+        inactiveOfferCount.textContent =
+            inactiveOffers;
+
+
+
+        // ==================================
+        // NO OFFERS
+        // ==================================
+
+        if (offers.length === 0) {
+
+            offerList.innerHTML = `
+                <p>
+                    No offers available.
+                </p>
+            `;
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // OFFER INTELLIGENCE
+        // ==================================
+
+        const activeInsight =
+            document.getElementById(
+                "activeOfferInsight"
+            );
+
+
+        const expiringInsight =
+            document.getElementById(
+                "expiringOfferInsight"
+            );
+
+
+        const promotionInsight =
+            document.getElementById(
+                "promotionInsight"
+            );
+
+
+        const activeOfferNames =
+            offers
+                .filter(
+                    offer =>
+                        Number(
+                            offer.is_active
+                        ) === 1
+                )
+                .map(
+                    offer =>
+                        offer.offer_name
+                );
+
+
+        const expiringOffers =
+            offers.filter(
+                offer => {
+
+                    const endDate =
+                        new Date(
+                            offer.end_date
+                        );
+
+
+                    const today =
+                        new Date();
+
+
+                    const days =
+                        Math.ceil(
+                            (
+                                endDate -
+                                today
+                            ) /
+                            (
+                                1000 *
+                                60 *
+                                60 *
+                                24
+                            )
+                        );
+
+
+                    return (
+                        Number(
+                            offer.is_active
+                        ) === 1 &&
+                        days >= 0 &&
+                        days <= 7
+                    );
+
+                }
+            );
+
+
+
+        // ==================================
+        // ACTIVE OFFER INSIGHT
+        // ==================================
+
+        if (
+            activeOfferNames.length > 0
+        ) {
+
+            activeInsight.textContent =
+                `${activeOfferNames.length} active promotions are currently available: ${activeOfferNames.join(", ")}.`;
+
+        } else {
+
+            activeInsight.textContent =
+                "There are currently no active promotions.";
+
+        }
+
+
+
+        // ==================================
+        // EXPIRING OFFER INSIGHT
+        // ==================================
+
+        if (
+            expiringOffers.length > 0
+        ) {
+
+            expiringInsight.textContent =
+                `${expiringOffers.length} active offer${expiringOffers.length > 1 ? "s are" : " is"} expiring within the next 7 days.`;
+
+        } else {
+
+            expiringInsight.textContent =
+                "No active offers are expiring within the next 7 days.";
+
+        }
+
+
+
+        // ==================================
+        // PROMOTION OPPORTUNITY
+        // ==================================
+
+        if (activeOffers === 0) {
+
+            promotionInsight.textContent =
+                "No active promotions are running. Consider creating a new customer offer.";
+
+        } else if (
+            expiringOffers.length > 0
+        ) {
+
+            promotionInsight.textContent =
+                "Some promotions are ending soon. Consider refreshing or replacing them.";
+
+        } else {
+
+            promotionInsight.textContent =
+                "Your active promotions currently have no immediate expiry concern.";
+
+        }
+
+
+
+        // ==================================
+        // DISPLAY OFFERS
+        // ==================================
+
+        offers.forEach(
+            offer => {
+
+
+                const status =
+                    Number(
+                        offer.is_active
+                    ) === 1
+                        ? "Active"
+                        : "Inactive";
+
+
+                const today =
+                    new Date();
+
+
+                const endDate =
+                    new Date(
+                        offer.end_date
+                    );
+
+
+                const timeDifference =
+                    endDate - today;
+
+
+                const daysRemaining =
+                    Math.ceil(
+                        timeDifference /
+                        (
+                            1000 *
+                            60 *
+                            60 *
+                            24
+                        )
+                    );
+
+
+                offerList.innerHTML += `
+
+                    <div class="offer-item">
+
+
+                        <!-- OFFER DETAILS -->
+
+                        <div class="offer-details">
+
+                            <strong class="offer-name">
+
+                                ${offer.offer_name}
+
+                            </strong>
+
+
+                            <p class="offer-date">
+
+                                ${offer.start_date}
+                                →
+                                ${offer.end_date}
+
+                            </p>
+
+
+                            <p class="offer-days-remaining ${
+                                daysRemaining < 0
+                                    ? "expired"
+                                    : daysRemaining <= 3
+                                        ? "urgent"
+                                        : daysRemaining <= 7
+                                            ? "warning"
+                                            : "normal"
+                            }">
+
+                                ${
+                                    daysRemaining > 0
+                                        ? `${daysRemaining} days remaining`
+                                        : daysRemaining === 0
+                                            ? "Ends today"
+                                            : "Expired"
+                                }
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- DISCOUNT -->
+
+                        <div class="offer-discount">
+
+                            <strong>
+                                ${offer.discount_percent}%
+                            </strong>
+
+                            <span>
+                                OFF
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- OFFER ACTIONS -->
+
+                        <div class="offer-actions">
+
+
+                            <span class="offer-status ${status.toLowerCase()}">
+
+                                ${status}
+
+                            </span>
+
+
+                            <button
+                                class="edit-offer-button"
+                                onclick="editOffer(${offer.id})"
+                            >
+                                Edit
+                            </button>
+
+
+                            <button
+                                class="delete-offer-button"
+                                onclick="deleteOffer(${offer.id})"
+                            >
+                                Delete
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Offer Error:",
+            error
+        );
+
+
+        document.getElementById(
+            "offerList"
+        ).innerHTML =
+            "<p>Unable to load offers.</p>";
+
+    }
+
+}
+
+
+
+// ==========================================
+// OPEN OFFER MODAL
+// ==========================================
+
+function openOfferModal() {
+
+    document.getElementById(
+        "offerModal"
+    ).classList.add("show");
+
+}
+
+
+
+// ==========================================
+// RESET MODAL TO CREATE MODE
+// ==========================================
+
+function resetOfferModalMode() {
+
+    editingOfferId = null;
+
+
+    document.getElementById(
+        "offerModalTitle"
+    ).textContent =
+        "Create New Offer";
+
+
+    document.getElementById(
+        "offerModalDescription"
+    ).textContent =
+        "Add a promotional offer for your restaurant.";
+
+
+    document.getElementById(
+        "offerSubmitButton"
+    ).textContent =
+        "Create Offer";
+
+
+    document.getElementById(
+        "offerSubmitButton"
+    ).setAttribute(
+        "onclick",
+        "createOffer()"
+    );
+
+}
+
+
+
+// ==========================================
+// CLOSE OFFER MODAL
+// ==========================================
+
+function closeOfferModal() {
+
+    document.getElementById(
+        "offerModal"
+    ).classList.remove("show");
+
+
+    document.getElementById(
+        "offerForm"
+    ).reset();
+
+
+    resetOfferModalMode();
+
+}
+
+
+
+// ==========================================
+// CREATE OFFER
+// ==========================================
+
+async function createOffer() {
+
+    const offerName =
+        document.getElementById(
+            "offerName"
+        ).value.trim();
+
+
+    const discount =
+        document.getElementById(
+            "offerDiscount"
+        ).value;
+
+
+    const startDate =
+        document.getElementById(
+            "offerStartDate"
+        ).value;
+
+
+    const endDate =
+        document.getElementById(
+            "offerEndDate"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "offerStatus"
+        ).value;
+
+
+
+    // ======================================
+    // VALIDATION
+    // ======================================
+
+    if (
+        !offerName ||
+        !discount ||
+        !startDate ||
+        !endDate
+    ) {
+
+        alert(
+            "Please fill in all offer details."
+        );
+
+        return;
+
+    }
+
+if (
+    Number(discount) < 1 ||
+    Number(discount) > 100
+) {
+
+    alert(
+        "Discount percentage must be between 1 and 100."
+    );
+
+    return;
+
+}
+
+
+
+
+
+    if (endDate < startDate) {
+
+        alert(
+            "End date cannot be before start date."
+        );
+
+        return;
+
+    }
+
+
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/offers",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        offer_name:
+                            offerName,
+
+                        discount_percent:
+                            Number(discount),
+
+                        start_date:
+                            startDate,
+
+                        end_date:
+                            endDate,
+
+                        is_active:
+                            Number(status)
+
+                    })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        alert(
+            data.message ||
+            "Offer created successfully."
+        );
+
+
+        closeOfferModal();
+
+
+        loadOffers();
+
+
+    } catch (error) {
+
+        console.error(
+            "Create Offer Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to create offer. Please check the backend."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// DELETE OFFER
+// ==========================================
+
+async function deleteOffer(
+    offerId
+) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this offer?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+
+    try {
+
+        const response =
+            await fetch(
+                `http://127.0.0.1:8000/offers/${offerId}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        alert(
+            data.message ||
+            "Offer deleted successfully."
+        );
+
+
+        loadOffers();
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete Offer Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to delete offer. Please check the backend."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// EDIT OFFER
+// ==========================================
+
+async function editOffer(
+    offerId
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/offers"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        const offer =
+            data.offers.find(
+                item =>
+                    Number(item.id) ===
+                    Number(offerId)
+            );
+
+
+        if (!offer) {
+
+            alert(
+                "Offer not found."
+            );
+
+            return;
+
+        }
+
+
+
+        // ==================================
+        // STORE EDITING OFFER ID
+        // ==================================
+
+        editingOfferId =
+            offerId;
+
+
+
+        // ==================================
+        // CHANGE MODAL TO EDIT MODE
+        // ==================================
+
+        document.getElementById(
+            "offerModalTitle"
+        ).textContent =
+            "Edit Offer";
+
+
+        document.getElementById(
+            "offerModalDescription"
+        ).textContent =
+            "Update your restaurant promotional offer.";
+
+
+        document.getElementById(
+            "offerSubmitButton"
+        ).textContent =
+            "Update Offer";
+
+
+        document.getElementById(
+            "offerSubmitButton"
+        ).setAttribute(
+            "onclick",
+            "updateOffer()"
+        );
+
+
+
+        // ==================================
+        // FILL OFFER DETAILS
+        // ==================================
+
+        document.getElementById(
+            "offerName"
+        ).value =
+            offer.offer_name;
+
+
+        document.getElementById(
+            "offerDiscount"
+        ).value =
+            offer.discount_percent;
+
+
+        document.getElementById(
+            "offerStartDate"
+        ).value =
+            offer.start_date;
+
+
+        document.getElementById(
+            "offerEndDate"
+        ).value =
+            offer.end_date;
+
+
+        document.getElementById(
+            "offerStatus"
+        ).value =
+            String(
+                offer.is_active
+            );
+
+
+
+        // ==================================
+        // OPEN MODAL
+        // ==================================
+
+        openOfferModal();
+
+
+    } catch (error) {
+
+        console.error(
+            "Edit Offer Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to load offer details."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// UPDATE OFFER
+// ==========================================
+
+async function updateOffer() {
+
+    if (!editingOfferId) {
+
+        alert(
+            "No offer selected for editing."
+        );
+
+        return;
+
+    }
+
+
+    const offerName =
+        document.getElementById(
+            "offerName"
+        ).value.trim();
+
+
+    const discount =
+        document.getElementById(
+            "offerDiscount"
+        ).value;
+
+
+    const startDate =
+        document.getElementById(
+            "offerStartDate"
+        ).value;
+
+
+    const endDate =
+        document.getElementById(
+            "offerEndDate"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "offerStatus"
+        ).value;
+
+
+
+    // ======================================
+    // VALIDATION
+    // ======================================
+
+    if (
+        !offerName ||
+        !discount ||
+        !startDate ||
+        !endDate
+    ) {
+
+        alert(
+            "Please fill in all offer details."
+        );
+
+        return;
+
+    }
+
+
+if (
+    Number(discount) < 1 ||
+    Number(discount) > 100
+) {
+
+    alert(
+        "Discount percentage must be between 1 and 100."
+    );
+
+    return;
+
+}
+
+
+    if (endDate < startDate) {
+
+        alert(
+            "End date cannot be before start date."
+        );
+
+        return;
+
+    }
+
+
+
+    try {
+
+        const response =
+            await fetch(
+                `http://127.0.0.1:8000/offers/${editingOfferId}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        offer_name:
+                            offerName,
+
+                        discount_percent:
+                            Number(discount),
+
+                        start_date:
+                            startDate,
+
+                        end_date:
+                            endDate,
+
+                        is_active:
+                            Number(status)
+
+                    })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        alert(
+            data.message ||
+            "Offer updated successfully."
+        );
+
+
+        closeOfferModal();
+
+
+        loadOffers();
+
+
+    } catch (error) {
+
+        console.error(
+            "Update Offer Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to update offer. Please check the backend."
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// INITIAL LOAD
+// ==========================================
+
+loadOffers();
+
+
+</script>
+
+</body>
+
+</html>

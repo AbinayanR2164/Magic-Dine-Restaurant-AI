@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MagicDine AI</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           DASHBOARD ENHANCEMENTS
+        =========================================== */
+
+        .dashboard-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            margin-top: 8px;
+            border-radius: 20px;
+            background: #f0fdf4;
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .dashboard-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .stat-card {
+            transition: 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card h2 {
+            min-height: 28px;
+        }
+
+        .card-header {
+            gap: 15px;
+        }
+
+        #orderPeriod {
+            min-width: 125px;
+            padding: 8px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #orderPeriod:focus {
+            border-color: #ff5733;
+        }
+
+        .dashboard-chart-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .chart-summary-item {
+            padding: 10px 12px;
+            border: 1px solid #eeeeee;
+            border-radius: 8px;
+            background: #f8f9fb;
+        }
+
+        .chart-summary-item span {
+            display: block;
+            margin-bottom: 4px;
+            color: #6b7280;
+            font-size: 10px;
+        }
+
+        .chart-summary-item strong {
+            color: #1f2937;
+            font-size: 14px;
+        }
+
+        .channel-item {
+            margin-bottom: 14px;
+        }
+
+        .channel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 7px;
+        }
+
+        .channel-header span {
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .channel-header strong {
+            color: #1f2937;
+            font-size: 11px;
+        }
+
+        .channel-bar {
+            width: 100%;
+            height: 7px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #eeeeee;
+        }
+
+        .channel-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: #ff5733;
+            transition: width 0.4s ease;
+        }
+
+        .channel-percentage {
+            margin-top: 4px;
+            color: #9ca3af;
+            font-size: 10px;
+            text-align: right;
+        }
+
+        .dashboard-insight-meta {
+            margin-top: 8px;
+            color: #9ca3af;
+            font-size: 10px;
+        }
+
+        .recommendation {
+            margin-top: 18px;
+        }
+
+        .recommendation strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .recommendation p {
+            line-height: 1.5;
+        }
+
+        .dashboard-error {
+            padding: 12px;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            background: #fef2f2;
+            color: #b91c1c;
+            font-size: 12px;
+        }
+
+        .customer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .customer-row strong {
+            color: #1f2937;
+        }
+
+        .opportunity {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opportunity button {
+            cursor: pointer;
+        }
+
+        .dashboard-refresh {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dashboard-refresh:hover {
+            background: #f8f9fb;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .chart-empty {
+            padding: 35px 15px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        =========================================== */
+
+        @media (max-width: 900px) {
+
+            .dashboard-chart-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar-actions {
+                align-items: flex-end;
+                flex-direction: column;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar-actions {
+                width: 100%;
+                align-items: stretch;
+            }
+
+            .dashboard-refresh {
+                width: 100%;
+            }
+
+            .card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            #orderPeriod {
+                width: 100%;
+            }
+
+            .channel-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍽️ MagicDine <span>AI</span>
+        </div>
+
+
+        <nav>
+
+            <a
+                class="active"
+                href="index.html"
+            >
+                📊 Dashboard
+            </a>
+
+
+            <a href="assistant.html">
+                🤖 AI Assistant
+            </a>
+
+
+            <a href="insights.html">
+                📈 Insights
+            </a>
+
+
+            <a href="offers.html">
+                🎁 Offers
+            </a>
+
+
+            <a href="customers.html">
+                👥 Customers
+            </a>
+
+        </nav>
+
+
+        <div class="restaurant">
+
+            <div class="restaurant-icon">
+                R
+            </div>
+
+
+            <div>
+
+                <strong>
+                    My Restaurant
+                </strong>
+
+                <small>
+                    Restaurant Owner
+                </small>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
+
+        <header class="topbar">
+
+
+            <div>
+
+                <h1>
+                    Good afternoon 👋
+                </h1>
+
+
+                <p>
+                    Here's what's happening with your restaurant today.
+                </p>
+
+
+                <div class="dashboard-status">
+
+                    <span class="dashboard-status-dot"></span>
+
+                    Connected to restaurant data
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    type="button"
+                    class="dashboard-refresh"
+                    onclick="refreshDashboard()"
+                >
+                    ↻ Refresh Data
+                </button>
+
+
+                <button
+                    type="button"
+                    class="ai-button"
+                    onclick="window.location.href='assistant.html'"
+                >
+                    ✨ Ask MagicDine AI
+                </button>
+
+            </div>
+
+
+        </header>
+
+
+        <!-- ======================================
+             STATISTICS
+        ======================================= -->
+
+        <section class="stats">
+
+
+            <!-- TOTAL ORDERS -->
+
+            <div class="stat-card">
+
+                <p>
+                    Total Orders
+                </p>
+
+
+                <h2 id="totalOrders">
+                    Loading...
+                </h2>
+
+
+                <span class="positive">
+                    From MySQL database
+                </span>
+
+            </div>
+
+
+            <!-- TOTAL REVENUE -->
+
+            <div class="stat-card">
+
+                <p>
+                    Total Revenue
+                </p>
+
+
+                <h2 id="totalRevenue">
+                    Loading...
+                </h2>
+
+
+                <span class="positive">
+                    From MySQL database
+                </span>
+
+            </div>
+
+
+            <!-- AVERAGE ORDER VALUE -->
+
+            <div class="stat-card">
+
+                <p>
+                    Average Order Value
+                </p>
+
+
+                <h2 id="averageOrderValue">
+                    Loading...
+                </h2>
+
+
+                <span>
+                    Calculated from orders
+                </span>
+
+            </div>
+
+
+            <!-- BEST CHANNEL -->
+
+            <div class="stat-card">
+
+                <p>
+                    Best Order Channel
+                </p>
+
+
+                <h2 id="bestChannel">
+                    Loading...
+                </h2>
+
+
+                <span>
+                    Based on order count
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             DASHBOARD GRID
+        ======================================= -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- ==================================
+                 ORDERS CHART
+            =================================== -->
+
+            <div class="card large-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Orders Overview
+                        </h3>
+
+
+                        <p id="orderPeriodDescription">
+                            Order performance over the last 7 days
+                        </p>
+
+                    </div>
+
+
+                    <select id="orderPeriod">
+
+                        <option value="7">
+                            Last 7 days
+                        </option>
+
+
+                        <option value="30">
+                            Last 30 days
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CHART SUMMARY -->
+
+                <div
+                    id="dashboardChartSummary"
+                    class="dashboard-chart-summary"
+                >
+
+                    <div class="chart-summary-item">
+
+                        <span>
+                            Orders
+                        </span>
+
+                        <strong id="chartOrderCount">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="chart-summary-item">
+
+                        <span>
+                            Revenue
+                        </span>
+
+                        <strong id="chartRevenue">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div class="chart-summary-item">
+
+                        <span>
+                            Average / Day
+                        </span>
+
+                        <strong id="chartAverage">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REAL ORDER ANALYTICS -->
+
+                <div
+                    class="chart"
+                    id="ordersChart"
+                >
+
+                    <div class="chart-empty">
+                        Loading order analytics...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==================================
+                 ORDER CHANNEL ANALYTICS
+            =================================== -->
+
+            <div class="card channel-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Order Channels
+                        </h3>
+
+                        <p>
+                            Orders and revenue by channel
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="channelAnalytics">
+
+                    <div class="chart-empty">
+                        Loading channel analytics...
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==================================
+                 DYNAMIC AI INSIGHT
+            =================================== -->
+
+            <div class="card insight-card">
+
+
+                <div class="ai-title">
+                    ✨ AI Insight
+                </div>
+
+
+                <h3 id="dashboardInsightTitle">
+                    Loading insight...
+                </h3>
+
+
+                <p id="dashboardInsightDescription">
+                    MagicDine AI is analyzing your real
+                    restaurant order data.
+                </p>
+
+
+                <div class="dashboard-insight-meta">
+                    Based on available restaurant data
+                </div>
+
+
+                <!-- RECOMMENDATION -->
+
+                <div class="recommendation">
+
+
+                    <strong>
+                        💡 Recommendation
+                    </strong>
+
+
+                    <p>
+                        Ask MagicDine AI for personalized
+                        growth recommendations based on
+                        your restaurant data.
+                    </p>
+
+
+                    <a
+                        href="assistant.html"
+                        class="ai-action-button"
+                    >
+                        Ask AI →
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             BOTTOM SECTION
+        ======================================= -->
+
+        <section class="bottom-grid">
+
+
+            <!-- ==================================
+                 CUSTOMER OVERVIEW
+            =================================== -->
+
+            <div class="card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Customer Overview
+                        </h3>
+
+
+                        <p>
+                            Customer order information
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="customer-row">
+
+                    <span>
+                        Total Orders
+                    </span>
+
+
+                    <strong id="customerOrders">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="customer-row">
+
+                    <span>
+                        Average Order Value
+                    </span>
+
+
+                    <strong id="customerAOV">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==================================
+                 OPPORTUNITY
+            =================================== -->
+
+            <div class="card opportunity">
+
+
+                <div class="ai-title">
+                    🚀 Today's Opportunity
+                </div>
+
+
+                <h3>
+                    Grow your restaurant
+                </h3>
+
+
+                <p>
+                    MagicDine AI can analyze your real
+                    orders and suggest ways to increase
+                    revenue and customer retention.
+                </p>
+
+
+                <button
+                    type="button"
+                    onclick="window.location.href='assistant.html'"
+                >
+                    Explore with AI →
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         DASHBOARD JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        // ==========================================
+        // API BASE URL
+        // ==========================================
+
+        const API_BASE =
+            "http://127.0.0.1:8000";
+
+
+        // ==========================================
+        // FORMAT CURRENCY
+        // ==========================================
+
+        function formatCurrency(value) {
+
+            return "₹" +
+                Number(value || 0)
+                    .toLocaleString(
+                        "en-IN",
+                        {
+                            maximumFractionDigits: 0
+                        }
+                    );
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // LOAD REAL METRICS
+        // ==========================================
+
+        async function loadDashboardMetrics() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/metrics`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                // ======================================
+                // TOP DASHBOARD CARDS
+                // ======================================
+
+                document.getElementById(
+                    "totalOrders"
+                ).textContent =
+                    Number(
+                        data.total_orders || 0
+                    );
+
+
+                document.getElementById(
+                    "totalRevenue"
+                ).textContent =
+                    formatCurrency(
+                        data.total_revenue
+                    );
+
+
+                document.getElementById(
+                    "averageOrderValue"
+                ).textContent =
+                    formatCurrency(
+                        data.average_order_value
+                    );
+
+
+                document.getElementById(
+                    "bestChannel"
+                ).textContent =
+                    data.best_channel ||
+                    "No data";
+
+
+                // ======================================
+                // CUSTOMER OVERVIEW
+                // ======================================
+
+                document.getElementById(
+                    "customerOrders"
+                ).textContent =
+                    Number(
+                        data.total_orders || 0
+                    );
+
+
+                document.getElementById(
+                    "customerAOV"
+                ).textContent =
+                    formatCurrency(
+                        data.average_order_value
+                    );
+
+
+                console.log(
+                    "Dashboard metrics:",
+                    data
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading dashboard metrics:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "totalOrders"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "totalRevenue"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "averageOrderValue"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "bestChannel"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerOrders"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "customerAOV"
+                ).textContent =
+                    "Unavailable";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD ORDER ANALYTICS
+        // ==========================================
+
+        async function loadOrderAnalytics() {
+
+            try {
+
+                const days =
+                    Number(
+                        document.getElementById(
+                            "orderPeriod"
+                        ).value
+                    );
+
+
+                document.getElementById(
+                    "orderPeriodDescription"
+                ).textContent =
+                    `Order and revenue performance over the last ${days} days`;
+
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/orders-analytics?days=${days}`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const orders =
+                    Array.isArray(
+                        data.orders
+                    )
+                        ? data.orders
+                        : [];
+
+
+                const chart =
+                    document.getElementById(
+                        "ordersChart"
+                    );
+
+
+                chart.innerHTML = "";
+
+
+                // ======================================
+                // EMPTY DATA
+                // ======================================
+
+                if (orders.length === 0) {
+
+                    chart.innerHTML = `
+                        <div class="chart-empty">
+                            No order data available for this period.
+                        </div>
+                    `;
+
+
+                    updateChartSummary(
+                        0,
+                        0,
+                        0
+                    );
+
+
+                    return;
+
+                }
+
+
+                // ======================================
+                // CALCULATE SUMMARY
+                // ======================================
+
+                const totalOrders =
+                    orders.reduce(
+                        (
+                            total,
+                            order
+                        ) =>
+                            total +
+                            Number(
+                                order.order_count || 0
+                            ),
+                        0
+                    );
+
+
+                const totalRevenue =
+                    orders.reduce(
+                        (
+                            total,
+                            order
+                        ) =>
+                            total +
+                            Number(
+                                order.revenue || 0
+                            ),
+                        0
+                    );
+
+
+                const averagePerDay =
+                    orders.length > 0
+                        ? totalRevenue /
+                          orders.length
+                        : 0;
+
+
+                updateChartSummary(
+                    totalOrders,
+                    totalRevenue,
+                    averagePerDay
+                );
+
+
+                // ======================================
+                // FIND MAX REVENUE
+                // ======================================
+
+                const maxRevenue =
+                    Math.max(
+                        ...orders.map(
+                            order =>
+                                Number(
+                                    order.revenue || 0
+                                )
+                        )
+                    );
+
+
+                // ======================================
+                // CREATE CHART BARS
+                // ======================================
+
+                orders.forEach(
+                    order => {
+
+
+                        const revenue =
+                            Number(
+                                order.revenue || 0
+                            );
+
+
+                        const orderCount =
+                            Number(
+                                order.order_count || 0
+                            );
+
+
+                        const height =
+                            maxRevenue > 0
+                                ? (
+                                    revenue /
+                                    maxRevenue
+                                ) * 100
+                                : 0;
+
+
+                        const formattedDate =
+                            new Date(
+                                order.order_date
+                            ).toLocaleDateString(
+                                "en-IN",
+                                {
+                                    day: "2-digit",
+                                    month: "short"
+                                }
+                            );
+
+
+                        const bar =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        bar.className =
+                            "bar";
+
+
+                        bar.style.height =
+                            `${Math.max(height, 3)}%`;
+
+
+                        bar.title =
+                            `${formattedDate} | Orders: ${orderCount} | Revenue: ${formatCurrency(revenue)}`;
+
+
+                        bar.innerHTML = `
+
+                            <strong>
+                                ${formatCurrency(revenue)}
+                            </strong>
+
+                            <span>
+                                ${formattedDate}
+                            </span>
+
+                        `;
+
+
+                        chart.appendChild(
+                            bar
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Order analytics error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "ordersChart"
+                ).innerHTML = `
+                    <div class="chart-empty">
+                        Unable to load order analytics.
+                    </div>
+                `;
+
+
+                updateChartSummary(
+                    null,
+                    null,
+                    null
+                );
+
+            }
+
+        }
+
+
+        // ==========================================
+        // UPDATE CHART SUMMARY
+        // ==========================================
+
+        function updateChartSummary(
+            orders,
+            revenue,
+            average
+        ) {
+
+            document.getElementById(
+                "chartOrderCount"
+            ).textContent =
+                orders === null
+                    ? "Unavailable"
+                    : orders;
+
+
+            document.getElementById(
+                "chartRevenue"
+            ).textContent =
+                revenue === null
+                    ? "Unavailable"
+                    : formatCurrency(
+                        revenue
+                    );
+
+
+            document.getElementById(
+                "chartAverage"
+            ).textContent =
+                average === null
+                    ? "Unavailable"
+                    : formatCurrency(
+                        average
+                    );
+
+        }
+
+
+        // ==========================================
+        // LOAD DYNAMIC DASHBOARD INSIGHT
+        // ==========================================
+
+        async function loadDashboardInsight() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/dashboard-insight`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                document.getElementById(
+                    "dashboardInsightTitle"
+                ).textContent =
+                    data.title ||
+                    "Restaurant Insight";
+
+
+                document.getElementById(
+                    "dashboardInsightDescription"
+                ).textContent =
+                    data.description ||
+                    "No additional insight is available.";
+
+            } catch (error) {
+
+                console.error(
+                    "Dashboard insight error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "dashboardInsightTitle"
+                ).textContent =
+                    "Insight unavailable";
+
+
+                document.getElementById(
+                    "dashboardInsightDescription"
+                ).textContent =
+                    "Unable to load the latest restaurant insight.";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD ORDER CHANNEL ANALYTICS
+        // ==========================================
+
+        async function loadChannelAnalytics() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/channel-analytics`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const container =
+                    document.getElementById(
+                        "channelAnalytics"
+                    );
+
+
+                container.innerHTML = "";
+
+
+                const channels =
+                    Array.isArray(
+                        data.channels
+                    )
+                        ? data.channels
+                        : [];
+
+
+                if (channels.length === 0) {
+
+                    container.innerHTML = `
+                        <div class="chart-empty">
+                            No channel data available.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                // ======================================
+                // TOTALS
+                // ======================================
+
+                const totalOrders =
+                    channels.reduce(
+                        (
+                            total,
+                            channel
+                        ) =>
+                            total +
+                            Number(
+                                channel.order_count || 0
+                            ),
+                        0
+                    );
+
+
+                const totalRevenue =
+                    channels.reduce(
+                        (
+                            total,
+                            channel
+                        ) =>
+                            total +
+                            Number(
+                                channel.revenue || 0
+                            ),
+                        0
+                    );
+
+
+                const maxRevenue =
+                    Math.max(
+                        ...channels.map(
+                            channel =>
+                                Number(
+                                    channel.revenue || 0
+                                )
+                        )
+                    );
+
+
+                // ======================================
+                // CREATE CHANNEL ROWS
+                // ======================================
+
+                channels.forEach(
+                    channel => {
+
+
+                        const orderCount =
+                            Number(
+                                channel.order_count || 0
+                            );
+
+
+                        const revenue =
+                            Number(
+                                channel.revenue || 0
+                            );
+
+
+                        const percentage =
+                            maxRevenue > 0
+                                ? (
+                                    revenue /
+                                    maxRevenue
+                                ) * 100
+                                : 0;
+
+
+                        const orderShare =
+                            totalOrders > 0
+                                ? (
+                                    orderCount /
+                                    totalOrders
+                                ) * 100
+                                : 0;
+
+
+                        const orderText =
+                            orderCount === 1
+                                ? "1 order"
+                                : `${orderCount} orders`;
+
+
+                        container.innerHTML += `
+
+                            <div class="channel-item">
+
+                                <div class="channel-header">
+
+                                    <span>
+                                        ${escapeHtml(
+                                            channel.order_channel ||
+                                            "Unknown"
+                                        )}
+                                    </span>
+
+                                    <strong>
+                                        ${orderText} ·
+                                        ${formatCurrency(revenue)}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="channel-bar">
+
+                                    <div
+                                        class="channel-bar-fill"
+                                        style="width:${percentage}%"
+                                    ></div>
+
+                                </div>
+
+
+                                <div class="channel-percentage">
+                                    ${orderShare.toFixed(1)}%
+                                    of recorded orders
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Channel analytics error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "channelAnalytics"
+                ).innerHTML = `
+                    <div class="dashboard-error">
+                        Unable to load channel analytics.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // REFRESH ENTIRE DASHBOARD
+        // ==========================================
+
+        async function refreshDashboard() {
+
+            const refreshButton =
+                document.querySelector(
+                    ".dashboard-refresh"
+                );
+
+
+            if (refreshButton) {
+
+                refreshButton.disabled = true;
+
+                refreshButton.textContent =
+                    "↻ Refreshing...";
+
+            }
+
+
+            await Promise.all([
+                loadDashboardMetrics(),
+                loadOrderAnalytics(),
+                loadDashboardInsight(),
+                loadChannelAnalytics()
+            ]);
+
+
+            if (refreshButton) {
+
+                refreshButton.disabled = false;
+
+                refreshButton.textContent =
+                    "↻ Refresh Data";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // ORDER PERIOD SELECTOR
+        // ==========================================
+
+        document
+            .getElementById(
+                "orderPeriod"
+            )
+            .addEventListener(
+                "change",
+                function() {
+
+                    loadOrderAnalytics();
+
+                }
+            );
+
+
+        // ==========================================
+        // START DASHBOARD
+        // ==========================================
+
+        loadDashboardMetrics();
+
+        loadOrderAnalytics();
+
+        loadDashboardInsight();
+
+        loadChannelAnalytics();
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1979 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    color: #1f2937;
+    display: flex;
+}
+
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    padding: 25px 18px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.logo span {
+    color: #ff5a36;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+nav a {
+    padding: 13px 15px;
+    border-radius: 10px;
+    color: #6b7280;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+nav a:hover,
+nav a.active {
+    background: #fff1ed;
+    color: #ff5a36;
+}
+
+.restaurant {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.restaurant-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ff5a36;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.restaurant small {
+    display: block;
+    color: #9ca3af;
+    margin-top: 3px;
+}
+
+
+/* MAIN */
+
+.main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 35px 45px;
+}
+
+
+/* TOPBAR */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.topbar p {
+    color: #6b7280;
+}
+
+.ai-button {
+    border: none;
+    background: #ff5a36;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ai-button:hover {
+    background: #e94d2d;
+}
+
+
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+
+.stat-card p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.stat-card h2 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.stat-card span {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.stat-card .positive {
+    color: #16a34a;
+    font-weight: bold;
+}
+
+
+/* CARDS */
+
+.card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    margin-bottom: 5px;
+}
+
+.card-header p {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+
+/* CHART */
+
+.chart {
+    height: 240px;
+    margin-top: 30px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    border-bottom: 1px solid #ddd;
+    gap: 15px;
+}
+
+.bar {
+    width: 45px;
+    background: #ff6b4a;
+    border-radius: 7px 7px 0 0;
+    position: relative;
+    min-height: 30px;
+}
+
+.bar span {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* AI INSIGHT */
+
+.insight-card {
+    background: #fffaf8;
+}
+
+.ai-title {
+    color: #ff5a36;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.insight-card h3 {
+    margin-bottom: 12px;
+}
+
+.insight-card > p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.recommendation {
+    background: white;
+    border: 1px solid #eee;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.recommendation p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 8px 0 14px;
+}
+
+.recommendation button,
+.opportunity button {
+    border: none;
+    background: transparent;
+    color: #ff5a36;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* BOTTOM */
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.customer-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.customer-row strong {
+    color: #ff5a36;
+}
+
+.opportunity {
+    background: #fffaf8;
+}
+
+.opportunity p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 10px 0 15px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .logo {
+        font-size: 0;
+    }
+
+    .logo:first-letter {
+        font-size: 25px;
+    }
+
+    nav a {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+        padding: 25px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid,
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   AI ASSISTANT
+========================= */
+
+.chat-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.ai-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #fff1ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.chat-header h3 {
+    margin-bottom: 4px;
+}
+
+.chat-header p {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.chat-messages {
+    min-height: 480px;
+    padding: 30px;
+    background: #fafafa;
+}
+
+.message {
+    display: flex;
+    gap: 12px;
+    max-width: 750px;
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #ff5a36;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.message-content {
+    background: white;
+    padding: 15px 18px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.message-content strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.message-content p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 25px 0 0 47px;
+}
+
+.suggestions button {
+    padding: 11px 15px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    color: #555;
+}
+
+.suggestions button:hover {
+    border-color: #ff5a36;
+    color: #ff5a36;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+    padding: 18px;
+    border-top: 1px solid #e5e7eb;
+    background: white;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
+}
+
+.chat-input input:focus {
+    border-color: #ff5a36;
+}
+
+.chat-input button {
+    border: none;
+    background: #ff5a36;
+    color: white;
+    padding: 0 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.chat-input button:hover {
+    background: #e94d2d;
+}
+
+
+/* =====================================
+   MAGICDINE AI - DARK GRADIENT THEME
+   ===================================== */
+
+body:has(.chat-container) {
+    background:
+        radial-gradient(circle at 80% 10%, rgba(130, 40, 255, 0.18), transparent 30%),
+        radial-gradient(circle at 15% 90%, rgba(255, 40, 100, 0.14), transparent 30%),
+        #050505;
+    color: #f5f5f5;
+}
+
+/* Dark sidebar */
+
+body:has(.chat-container) .sidebar {
+    background: rgba(5, 5, 5, 0.92);
+    border-right: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+body:has(.chat-container) .logo {
+    color: white;
+}
+
+body:has(.chat-container) nav a {
+    color: #a1a1aa;
+}
+
+body:has(.chat-container) nav a:hover,
+body:has(.chat-container) nav a.active {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 70, 120, 0.16),
+        rgba(130, 70, 255, 0.12)
+    );
+    color: white;
+    border: 1px solid rgba(255, 80, 130, 0.35);
+}
+
+/* Restaurant profile */
+
+body:has(.chat-container) .restaurant {
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+body:has(.chat-container) .restaurant strong {
+    color: white;
+}
+
+body:has(.chat-container) .restaurant small {
+    color: #71717a;
+}
+
+body:has(.chat-container) .restaurant-icon {
+    background: linear-gradient(135deg, #ff5a36, #ff247f);
+}
+
+/* Main heading */
+
+body:has(.chat-container) .topbar h1 {
+    color: white;
+}
+
+body:has(.chat-container) .topbar p {
+    color: #a1a1aa;
+}
+
+/* Chat container */
+
+body:has(.chat-container) .chat-container {
+    background: rgba(10, 10, 10, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+        0 0 60px rgba(130, 40, 255, 0.08);
+}
+
+/* Chat header */
+
+body:has(.chat-container) .chat-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+body:has(.chat-container) .chat-header h3 {
+    color: white;
+}
+
+body:has(.chat-container) .chat-header p {
+    color: #71717a;
+}
+
+body:has(.chat-container) .ai-avatar {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 70, 120, 0.20),
+        rgba(130, 70, 255, 0.20)
+    );
+
+    border: 1px solid rgba(255, 70, 150, 0.45);
+}
+
+/* Chat area */
+
+body:has(.chat-container) .chat-messages {
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(100, 50, 200, 0.06),
+            transparent 45%
+        ),
+        #070707;
+}
+
+/* AI message */
+
+body:has(.chat-container) .message-content {
+    background: linear-gradient(
+        135deg,
+        rgba(30, 30, 35, 0.95),
+        rgba(15, 15, 18, 0.95)
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body:has(.chat-container) .message-content strong {
+    color: white;
+}
+
+body:has(.chat-container) .message-content p {
+    color: #b4b4bb;
+}
+
+body:has(.chat-container) .message-avatar {
+    background: linear-gradient(
+        135deg,
+        #ff5a36,
+        #ff247f,
+        #713cff
+    );
+}
+
+/* Suggestion buttons */
+
+body:has(.chat-container) .suggestions button {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #d4d4d8;
+    transition: 0.25s;
+}
+
+body:has(.chat-container) .suggestions button:hover {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 50, 120, 0.12),
+        rgba(120, 60, 255, 0.12)
+    );
+
+    border-color: rgba(255, 80, 150, 0.55);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Input area */
+
+body:has(.chat-container) .chat-input {
+    background: rgba(8, 8, 8, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+body:has(.chat-container) .chat-input input {
+    background: #111113;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+body:has(.chat-container) .chat-input input::placeholder {
+    color: #71717a;
+}
+
+body:has(.chat-container) .chat-input input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+}
+
+/* Send button */
+
+body:has(.chat-container) .chat-input button {
+    background: linear-gradient(
+        135deg,
+        #ff5a36,
+        #ff247f,
+        #8b5cf6
+    );
+
+    border: none;
+    color: white;
+    transition: 0.25s;
+}
+
+body:has(.chat-container) .chat-input button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 25px rgba(255, 50, 120, 0.25);
+}
+
+
+/* =====================================
+   STRUCTURED AI RESPONSE
+   ===================================== */
+
+.ai-summary {
+    margin-bottom: 22px;
+}
+
+.ai-summary p {
+    color: #b4b4bb;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* AI SECTIONS */
+
+.ai-section {
+    margin-top: 22px;
+}
+
+.ai-section h3 {
+    color: white;
+    font-size: 17px;
+    margin-bottom: 14px;
+}
+
+
+/* METRICS */
+
+.ai-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.ai-metric {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    padding: 14px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    transition: 0.2s;
+}
+
+.ai-metric:hover {
+    border-color: rgba(255, 80, 150, 0.40);
+    transform: translateY(-2px);
+}
+
+.ai-metric-label {
+    color: #a1a1aa;
+    font-size: 13px;
+}
+
+.ai-metric-value {
+    color: white;
+    font-size: 18px;
+}
+
+
+/* RECOMMENDATIONS */
+
+.ai-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ai-recommendation {
+    display: flex;
+    gap: 14px;
+
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 10px;
+    padding: 15px;
+
+    transition: 0.2s;
+}
+
+.ai-recommendation:hover {
+    border-color: rgba(255, 80, 150, 0.40);
+    transform: translateY(-2px);
+}
+
+
+/* RECOMMENDATION NUMBER */
+
+.recommendation-number {
+    width: 30px;
+    height: 30px;
+
+    min-width: 30px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #ff5a36,
+        #ff247f,
+        #8b5cf6
+    );
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+/* RECOMMENDATION CONTENT */
+
+.recommendation-content {
+    flex: 1;
+}
+
+.recommendation-content strong {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.recommendation-content p {
+    color: #a1a1aa !important;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0 !important;
+}
+
+
+/* =====================================
+   AI RESPONSE MOBILE
+   ===================================== */
+
+@media (max-width: 700px) {
+
+    .ai-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-recommendation {
+        padding: 13px;
+    }
+
+    .recommendation-number {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+    }
+}
+
+/* Customers Page */
+
+.customer-item {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.5fr;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.customer-item strong {
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.customer-item p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Offers Page */
+
+.offer-item {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 120px;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.offer-item strong {
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.offer-item p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.offer-status {
+    text-align: center;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* Insights Page */
+
+.insight-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.insight-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff1ed;
+    border-radius: 50%;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.insight-item strong {
+    display: block;
+    font-size: 16px;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.insight-item p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Professional Insights Layout */
+
+.insights-card {
+    padding: 28px;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    transition: transform 0.2s ease;
+}
+
+.insight-item:hover {
+    transform: translateY(-2px);
+}
+
+.insight-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff1ed;
+    border-radius: 12px;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.insight-content {
+    flex: 1;
+}
+
+.insight-number {
+    display: block;
+    font-size: 12px;
+    color: #ff5733;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.insight-content strong {
+    display: block;
+    font-size: 17px;
+    color: #172b4d;
+    margin-bottom: 7px;
+}
+
+.insight-content p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.insight-error {
+    padding: 20px;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 12px;
+}
+
+.insight-error strong {
+    color: #be123c;
+}
+
+.insight-error p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.ai-action-button {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    background: #ff5733;
+    transition: 0.2s ease;
+}
+
+.ai-action-button:hover {
+    transform: translateY(-1px);
+}
+.ai-summary {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #d1d5db;
+    margin-bottom: 24px;
+}
+
+.ai-section {
+    margin-top: 24px;
+}
+
+.ai-section h3 {
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.ai-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.ai-metric {
+    padding: 18px;
+    background: #1f2025;
+    border: 1px solid #34353b;
+    border-radius: 12px;
+}
+
+.ai-metric strong {
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    margin-top: 6px;
+}
+
+.ai-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ai-recommendation {
+    display: flex;
+    gap: 14px;
+    padding: 18px;
+    background: #1f2025;
+    border: 1px solid #34353b;
+    border-radius: 12px;
+}
+
+.recommendation-number {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff5733, #ff2d75);
+    color: white;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.recommendation-content {
+    flex: 1;
+}
+
+.recommendation-content strong {
+    display: block;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.recommendation-content p {
+    margin: 0;
+    color: #aeb4c0;
+    line-height: 1.6;
+}
+/* ==========================================
+   ORDER CHANNEL ANALYTICS
+========================================== */
+
+.channel-item {
+    margin-bottom: 18px;
+}
+
+.channel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.channel-header span {
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.channel-header strong {
+    font-size: 13px;
+    color: #ff5733;
+}
+
+.channel-bar {
+    width: 100%;
+    height: 8px;
+    background: #f1f3f5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.channel-bar-fill {
+    height: 100%;
+    background: #ff5733;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+/* ==========================================
+   CUSTOMER SEARCH
+========================================== */
+
+#customerSearch {
+    width: 240px;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+#customerSearch:focus {
+    border-color: #ff5733;
+}
+
+
+/* ==========================================
+   CUSTOMER DETAILS MODAL
+========================================== */
+
+.customer-modal {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99999;
+}
+
+
+/* ==========================================
+   MODAL CONTENT
+========================================== */
+
+.customer-modal-content {
+    width: 520px;
+    max-width: 90%;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.20);
+
+    animation: customerModalOpen 0.2s ease;
+}
+
+
+/* ==========================================
+   MODAL HEADER
+========================================== */
+
+.customer-modal-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.customer-modal-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #1f2937;
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.customer-modal-close {
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+
+.customer-modal-close:hover {
+    background: #ff5733;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   ORDER LIST
+========================================== */
+
+.customer-order-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+
+/* ==========================================
+   ORDER CARD
+========================================== */
+
+.customer-order {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 16px;
+
+    background: #f8f9fb;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 10px;
+}
+
+
+.customer-order strong {
+    font-size: 14px;
+
+    color: #1f2937;
+}
+
+
+.customer-order p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+
+.customer-order > strong:last-child {
+    color: #ff5733;
+
+    font-size: 16px;
+}
+
+
+/* ==========================================
+   NO ORDERS MESSAGE
+========================================== */
+
+.no-orders {
+    text-align: center;
+
+    padding: 30px 10px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   MODAL ANIMATION
+========================================== */
+
+@keyframes customerModalOpen {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+/* ==========================================
+   OFFER SUMMARY
+========================================== */
+
+.offer-summary {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.offer-summary-item {
+    min-width: 90px;
+    padding: 12px 18px;
+    background: #f8f9fb;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.offer-summary-item strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.offer-summary-item p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+
+/* ==========================================
+   OFFER STATUS
+========================================== */
+
+.offer-status {
+    display: inline-block;
+    min-width: 90px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.offer-status.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.offer-status.inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+
+/* ==========================================
+   OFFER DAYS REMAINING
+========================================== */
+
+.offer-days-remaining {
+    margin-top: 6px !important;
+    font-size: 12px !important;
+    font-weight: 600;
+    color: #ff5733 !important;
+}
+
+/* ==========================================
+   OFFER EXPIRY STATUS
+========================================== */
+
+.offer-days-remaining.normal {
+    color: #16a34a !important;
+}
+
+.offer-days-remaining.warning {
+    color: #d97706 !important;
+}
+
+.offer-days-remaining.urgent {
+    color: #dc2626 !important;
+}
+
+.offer-days-remaining.expired {
+    color: #64748b !important;
+}
+
+
+/* ==========================================
+   OFFER INTELLIGENCE
+========================================== */
+
+.offer-intelligence-card {
+    margin-top: 24px;
+}
+
+.offer-insight-item {
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: #f8f9fb;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+}
+
+.offer-insight-item:last-child {
+    margin-bottom: 0;
+}
+
+.offer-insight-item strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.offer-insight-item p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+
+/* ==========================================
+   IMPROVED OFFER CARDS
+========================================== */
+
+.offer-item {
+    display: grid;
+    grid-template-columns: 1fr 160px 300px;
+    align-items: center;
+    gap: 24px;
+
+    padding: 18px 20px;
+    margin-bottom: 12px;
+
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    transition: 0.2s ease;
+}
+
+.offer-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* OFFER DETAILS */
+
+.offer-details {
+    min-width: 0;
+}
+
+.offer-name {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.offer-date {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+/* DISCOUNT */
+
+.offer-discount {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+}
+
+.offer-discount strong {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.offer-discount span {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+
+/* STATUS */
+
+.offer-status {
+    justify-self: end;
+    min-width: 90px;
+    padding: 7px 14px;
+    border-radius: 20px;
+
+    text-align: center;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.offer-status.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.offer-status.inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+
+/* DAYS REMAINING */
+
+.offer-days-remaining {
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
+
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+.offer-days-remaining.normal {
+    color: #16a34a !important;
+}
+
+.offer-days-remaining.warning {
+    color: #d97706 !important;
+}
+
+.offer-days-remaining.urgent {
+    color: #dc2626 !important;
+}
+
+.offer-days-remaining.expired {
+    color: #64748b !important;
+}
+
+
+/* ==========================================
+   OFFER RESPONSIVE LAYOUT
+========================================== */
+
+@media (max-width: 900px) {
+
+    .offer-item {
+        grid-template-columns: 1fr 120px 100px;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .offer-discount strong {
+        font-size: 15px;
+    }
+
+    .offer-status {
+        min-width: 75px;
+        padding: 6px 10px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .offer-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .offer-discount {
+        justify-content: flex-start;
+    }
+
+    .offer-status {
+        justify-self: start;
+    }
+
+    .offer-summary {
+        flex-wrap: wrap;
+    }
+
+}
+
+/* ==========================================
+   CREATE OFFER BUTTON
+========================================== */
+
+.create-offer-button {
+    padding: 11px 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #ff5733;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.create-offer-button:hover {
+    background: #e64a2e;
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   CREATE OFFER MODAL
+========================================== */
+
+.offer-modal {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99999;
+}
+
+.offer-modal.show {
+    display: flex;
+}
+
+
+.offer-modal-content {
+    width: 520px;
+    max-width: 90%;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+
+.offer-modal-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 22px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.offer-modal-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #1f2937;
+}
+
+
+.offer-modal-header p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+
+    color: #6b7280;
+}
+
+
+.offer-modal-close {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+.offer-modal-close:hover {
+    background: #ff5733;
+
+    color: #ffffff;
+}
+
+
+/* FORM */
+
+.offer-form-group {
+    margin-bottom: 16px;
+}
+
+
+.offer-form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+.offer-form-group input,
+.offer-form-group select {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.offer-form-group input:focus,
+.offer-form-group select:focus {
+    border-color: #ff5733;
+}
+
+
+.offer-form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 14px;
+}
+
+
+/* FORM BUTTONS */
+
+.offer-form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+
+.offer-cancel-button,
+.offer-save-button {
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.offer-cancel-button {
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+
+    color: #374151;
+}
+
+
+.offer-save-button {
+    border: none;
+
+    background: #ff5733;
+
+    color: #ffffff;
+}
+
+
+.offer-save-button:hover {
+    background: #e64a2e;
+}
+
+/* ==========================================
+   OFFER ACTIONS
+========================================== */
+
+.offer-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+
+.delete-offer-button {
+    padding: 7px 12px;
+
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #dc2626;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.delete-offer-button:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}   
+
+
+/* ==========================================
+   EDIT OFFER BUTTON
+========================================== */
+
+.edit-offer-button {
+    padding: 7px 12px;
+
+    border: 1px solid #fed7aa;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #ea580c;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.edit-offer-button:hover {
+    background: #fff7ed;
+    border-color: #fdba74;
+}

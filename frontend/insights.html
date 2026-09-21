@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MagicDine Insights</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+
+        /* ==========================================
+           INSIGHTS PAGE
+        =========================================== */
+
+        .insight-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .insight-summary-card {
+            padding: 18px;
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+        }
+
+        .insight-summary-card p {
+            margin: 0 0 8px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .insight-summary-card strong {
+            display: block;
+            color: #1f2937;
+            font-size: 22px;
+        }
+
+        .insight-summary-card span {
+            display: block;
+            margin-top: 5px;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 20px;
+            background: #f8f9fb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            transition: 0.2s ease;
+        }
+
+        .insight-item:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 5px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .insight-icon {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #fff7ed;
+            font-size: 20px;
+        }
+
+        .insight-content {
+            min-width: 0;
+        }
+
+        .insight-number {
+            display: block;
+            margin-bottom: 5px;
+            color: #ea580c;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .insight-content strong {
+            display: block;
+            margin-bottom: 7px;
+            color: #1f2937;
+            font-size: 15px;
+        }
+
+        .insight-content p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .insight-section {
+            margin-top: 20px;
+        }
+
+        .insight-section-title {
+            margin: 0 0 14px;
+            color: #1f2937;
+            font-size: 17px;
+        }
+
+        .channel-insight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .channel-insight-item {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 18px;
+            background: #f8f9fb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .channel-insight-name strong {
+            display: block;
+            color: #1f2937;
+            font-size: 13px;
+        }
+
+        .channel-insight-name span {
+            display: block;
+            margin-top: 3px;
+            color: #6b7280;
+            font-size: 11px;
+        }
+
+        .channel-insight-metric {
+            text-align: center;
+        }
+
+        .channel-insight-metric span {
+            display: block;
+            margin-bottom: 3px;
+            color: #6b7280;
+            font-size: 10px;
+        }
+
+        .channel-insight-metric strong {
+            color: #1f2937;
+            font-size: 13px;
+        }
+
+        .insight-loading {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .insight-error {
+            padding: 18px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            color: #b91c1c;
+        }
+
+        .insight-error strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .insight-error p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .data-note {
+            margin-top: 15px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        =========================================== */
+
+        @media (max-width: 1000px) {
+
+            .insight-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .insight-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .channel-insight-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .channel-insight-metric {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         SIDEBAR
+    =========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🍽️ MagicDine <span>AI</span>
+        </div>
+
+
+        <nav>
+
+            <a href="index.html">
+                📊 Dashboard
+            </a>
+
+            <a href="assistant.html">
+                🤖 AI Assistant
+            </a>
+
+            <a
+                class="active"
+                href="insights.html"
+            >
+                📈 Insights
+            </a>
+
+            <a href="offers.html">
+                🎁 Offers
+            </a>
+
+            <a href="customers.html">
+                👥 Customers
+            </a>
+
+        </nav>
+
+
+        <div class="restaurant">
+
+            <div class="restaurant-icon">
+                R
+            </div>
+
+            <div>
+
+                <strong>
+                    My Restaurant
+                </strong>
+
+                <small>
+                    Restaurant Owner
+                </small>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main">
+
+
+        <!-- ======================================
+             HEADER
+        ======================================= -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Restaurant Insights 📈
+                </h1>
+
+                <p>
+                    Understand your restaurant performance using real order data.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ======================================
+             PERFORMANCE SUMMARY
+        ======================================= -->
+
+        <section class="insight-summary">
+
+
+            <div class="insight-summary-card">
+
+                <p>
+                    Total Orders
+                </p>
+
+                <strong id="insightTotalOrders">
+                    Loading...
+                </strong>
+
+                <span>
+                    Recorded customer orders
+                </span>
+
+            </div>
+
+
+            <div class="insight-summary-card">
+
+                <p>
+                    Total Revenue
+                </p>
+
+                <strong id="insightTotalRevenue">
+                    Loading...
+                </strong>
+
+                <span>
+                    Revenue from recorded orders
+                </span>
+
+            </div>
+
+
+            <div class="insight-summary-card">
+
+                <p>
+                    Average Order Value
+                </p>
+
+                <strong id="insightAOV">
+                    Loading...
+                </strong>
+
+                <span>
+                    Average revenue per order
+                </span>
+
+            </div>
+
+
+            <div class="insight-summary-card">
+
+                <p>
+                    Top Order Channel
+                </p>
+
+                <strong id="insightBestChannel">
+                    Loading...
+                </strong>
+
+                <span id="insightBestChannelDescription">
+                    Based on order count
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ======================================
+             AI / PERFORMANCE INSIGHTS
+        ======================================= -->
+
+        <section class="card insights-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Performance Insights
+                    </h2>
+
+                    <p>
+                        AI-powered insights calculated from your orders database.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="insightList"
+                class="insights-grid"
+            >
+
+                <div class="insight-loading">
+                    Loading insights...
+                </div>
+
+            </div>
+
+
+            <div class="data-note">
+
+                Insights are generated from the order data available in
+                MagicDine. When the dataset is too small to establish a
+                reliable trend, the system avoids presenting that trend as
+                a confirmed pattern.
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             CHANNEL PERFORMANCE
+        ======================================= -->
+
+        <section
+            class="card insight-section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Channel Performance
+                    </h2>
+
+                    <p>
+                        Compare orders and revenue across your order channels.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="channelInsightList"
+                class="channel-insight-list"
+            >
+
+                <div class="insight-loading">
+                    Loading channel performance...
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        // ==========================================
+        // API BASE URL
+        // ==========================================
+
+        const API_BASE =
+            "http://127.0.0.1:8000";
+
+
+        // ==========================================
+        // FORMAT CURRENCY
+        // ==========================================
+
+        function formatCurrency(value) {
+
+            return "₹" +
+                Number(value || 0)
+                    .toLocaleString(
+                        "en-IN",
+                        {
+                            maximumFractionDigits: 0
+                        }
+                    );
+
+        }
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // LOAD BASIC PERFORMANCE METRICS
+        // ==========================================
+
+        async function loadInsightMetrics() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/metrics`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                document.getElementById(
+                    "insightTotalOrders"
+                ).textContent =
+                    Number(
+                        data.total_orders || 0
+                    );
+
+
+                document.getElementById(
+                    "insightTotalRevenue"
+                ).textContent =
+                    formatCurrency(
+                        data.total_revenue
+                    );
+
+
+                document.getElementById(
+                    "insightAOV"
+                ).textContent =
+                    formatCurrency(
+                        data.average_order_value
+                    );
+
+
+                document.getElementById(
+                    "insightBestChannel"
+                ).textContent =
+                    data.best_channel ||
+                    "No data";
+
+
+                const channelCounts =
+                    data.channel_counts || {};
+
+
+                const bestChannel =
+                    data.best_channel;
+
+
+                let bestChannelCount = 0;
+
+
+                if (
+                    bestChannel &&
+                    channelCounts[bestChannel] !== undefined
+                ) {
+
+                    bestChannelCount =
+                        Number(
+                            channelCounts[bestChannel]
+                        );
+
+                }
+
+
+                document.getElementById(
+                    "insightBestChannelDescription"
+                ).textContent =
+                    bestChannelCount > 0
+                        ? `${bestChannelCount} recorded order${bestChannelCount !== 1 ? "s" : ""}`
+                        : "Based on order count";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Insight Metrics Error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "insightTotalOrders"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "insightTotalRevenue"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "insightAOV"
+                ).textContent =
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "insightBestChannel"
+                ).textContent =
+                    "Unavailable";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD INSIGHTS
+        // ==========================================
+
+        async function loadInsights() {
+
+            const insightList =
+                document.getElementById(
+                    "insightList"
+                );
+
+
+            try {
+
+                insightList.innerHTML = `
+                    <div class="insight-loading">
+                        Loading insights...
+                    </div>
+                `;
+
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/insights`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const insights =
+                    Array.isArray(
+                        data.insights
+                    )
+                        ? data.insights
+                        : [];
+
+
+                insightList.innerHTML = "";
+
+
+                if (insights.length === 0) {
+
+                    insightList.innerHTML = `
+                        <div class="insight-loading">
+                            No insights available from the current dataset.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                insights.forEach(
+                    (
+                        insight,
+                        index
+                    ) => {
+
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        item.className =
+                            "insight-item";
+
+
+                        item.innerHTML = `
+
+                            <div class="insight-icon">
+                                💡
+                            </div>
+
+                            <div class="insight-content">
+
+                                <span class="insight-number">
+                                    Insight ${index + 1}
+                                </span>
+
+                                <strong>
+                                    ${escapeHtml(
+                                        insight.title ||
+                                        "Performance Insight"
+                                    )}
+                                </strong>
+
+                                <p>
+                                    ${escapeHtml(
+                                        insight.description ||
+                                        "No description available."
+                                    )}
+                                </p>
+
+                            </div>
+
+                        `;
+
+
+                        insightList.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Insights Error:",
+                    error
+                );
+
+
+                insightList.innerHTML = `
+
+                    <div class="insight-error">
+
+                        <strong>
+                            Unable to load insights
+                        </strong>
+
+                        <p>
+                            Please make sure the MagicDine backend is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOAD CHANNEL PERFORMANCE
+        // ==========================================
+
+        async function loadChannelInsights() {
+
+            const channelList =
+                document.getElementById(
+                    "channelInsightList"
+                );
+
+
+            try {
+
+                channelList.innerHTML = `
+                    <div class="insight-loading">
+                        Loading channel performance...
+                    </div>
+                `;
+
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/channel-analytics`
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `Backend returned ${response.status}`
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                const channels =
+                    Array.isArray(
+                        data.channels
+                    )
+                        ? data.channels
+                        : [];
+
+
+                channelList.innerHTML = "";
+
+
+                if (channels.length === 0) {
+
+                    channelList.innerHTML = `
+                        <div class="insight-loading">
+                            No channel data available.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                const totalOrders =
+                    channels.reduce(
+                        (
+                            total,
+                            channel
+                        ) =>
+                            total +
+                            Number(
+                                channel.order_count || 0
+                            ),
+                        0
+                    );
+
+
+                const totalRevenue =
+                    channels.reduce(
+                        (
+                            total,
+                            channel
+                        ) =>
+                            total +
+                            Number(
+                                channel.revenue || 0
+                            ),
+                        0
+                    );
+
+
+                channels.forEach(
+                    channel => {
+
+
+                        const orderCount =
+                            Number(
+                                channel.order_count || 0
+                            );
+
+
+                        const revenue =
+                            Number(
+                                channel.revenue || 0
+                            );
+
+
+                        const orderShare =
+                            totalOrders > 0
+                                ? (
+                                    orderCount /
+                                    totalOrders
+                                ) * 100
+                                : 0;
+
+
+                        const revenueShare =
+                            totalRevenue > 0
+                                ? (
+                                    revenue /
+                                    totalRevenue
+                                ) * 100
+                                : 0;
+
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        item.className =
+                            "channel-insight-item";
+
+
+                        item.innerHTML = `
+
+                            <div class="channel-insight-name">
+
+                                <strong>
+                                    ${escapeHtml(
+                                        channel.order_channel ||
+                                        "Unknown"
+                                    )}
+                                </strong>
+
+                                <span>
+                                    ${orderShare.toFixed(1)}% of recorded orders
+                                </span>
+
+                            </div>
+
+
+                            <div class="channel-insight-metric">
+
+                                <span>
+                                    Orders
+                                </span>
+
+                                <strong>
+                                    ${orderCount}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="channel-insight-metric">
+
+                                <span>
+                                    Revenue
+                                </span>
+
+                                <strong>
+                                    ${formatCurrency(
+                                        revenue
+                                    )}
+                                </strong>
+
+                            </div>
+
+                        `;
+
+
+                        channelList.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Channel Insights Error:",
+                    error
+                );
+
+
+                channelList.innerHTML = `
+
+                    <div class="insight-error">
+
+                        <strong>
+                            Unable to load channel performance
+                        </strong>
+
+                        <p>
+                            Please make sure the MagicDine backend is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // START INSIGHTS PAGE
+        // ==========================================
+
+        loadInsightMetrics();
+
+        loadInsights();
+
+        loadChannelInsights();
+
+
+    </script>
+
+</body>
+
+</html>
