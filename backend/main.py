@@ -28,10 +28,13 @@ app = FastAPI()
 def get_db_connection():
 
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="magicdine"
+        host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", "3306")),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", ""),
+        database=os.getenv("DB_NAME", "magicdine"),
+        ssl_verify_cert=os.getenv("DB_SSL_VERIFY_CERT", "false").lower() == "true",
+        ssl_verify_identity=os.getenv("DB_SSL_VERIFY_IDENTITY", "false").lower() == "true"
     )
 
 
@@ -39,12 +42,19 @@ def get_db_connection():
 # CORS
 # ==========================================
 
+frontend_url = os.getenv("FRONTEND_URL", "").strip()
+
+allowed_origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500"
+]
+
+if frontend_url:
+    allowed_origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500"
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -1076,4 +1086,4 @@ def dashboard_insight():
             f"out of {total_orders} orders. "
             f"Your current average order value is "
             f"₹{average_order_value:.0f}."
-    }
+    }   
